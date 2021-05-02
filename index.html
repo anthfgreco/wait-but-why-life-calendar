@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.20/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.20/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.20/dist/js/uikit-icons.min.js"></script>
+
+    <link rel="stylesheet" href="mystyle.css">
+  </head>
+
+  <body>
+    <!-- Button toggling the off-canvas -->
+    <div id="hamburger-icon" uk-toggle="target: #off-canvas">
+      <div class="hamburger-line"></div>
+      <div class="hamburger-line"></div>
+      <div class="hamburger-line"></div>
+    </div>
+
+    <!-- Anchor toggling the off-canvas -->
+    <a href="#off-canvas" uk-toggle></a>
+
+    <!-- Off-canvas -->
+    <div id="off-canvas" uk-offcanvas>
+        <div class="uk-offcanvas-bar">
+          <h2>Set your birthday:</h2>
+          <input type="date" id="bdayPicker" />
+
+          <button class="uk-offcanvas-close" type="button" uk-close></button>
+        </div>
+    </div>
+
+    <div id="circle-div"></div>
+  </body>
+
+  <script type="text/javascript" src="javascript.js"></script>
+</html>

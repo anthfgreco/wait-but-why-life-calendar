@@ -1,0 +1,35 @@
+.hamburger-line {
+   width: 27px;
+   height: 3px;
+   background-color: black;
+   margin: 6px 0;
+ }
+ 
+#hamburger-icon {   
+  padding: 4px;
+  margin: 8px;
+ }
+ 
+#hamburger-icon:hover {
+   opacity: 0.4;
+   transition: 0.25s;
+ }
+
+h2 {
+  font-size: 17px;
+  margin: 5px;
+}
+
+#circle-div {
+  background-color: aquamarine;
+  width: 355px;
+}
+
+.circle {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 2px;
+}
