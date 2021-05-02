@@ -3,7 +3,7 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
-  /* overflow: hidden;  /* Hide scrollbars */
+  overflow: hidden;  /* Hide scrollbars */
 }
 
 #hamburger-icon {   
@@ -30,9 +30,10 @@ h2 {
 }
 
 #circle-div {
-  background-color: rgb(86, 43, 204);
+  background-color: black;
   width: 100%;
   height: 90%;
+  padding: 10px;
 }
 
 .circle {

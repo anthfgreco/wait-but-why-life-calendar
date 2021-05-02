@@ -13,54 +13,32 @@ String.prototype.format = function () {
   });
 };
 
+/**************************************************************************************************************
+***  Main Program
+***************************************************************************************************************/
+
 var numCircles = 980;
 
-function updateCirclesDiameter(numCircles) {
+function getDiameter() {
   circle_div = document.getElementById("circle-div");
   var divWidth = circle_div.offsetWidth;
   var divHeight = circle_div.offsetHeight;
-  return Math.floor(Math.sqrt(divWidth * 0.8 * divHeight / numCircles));
-}
-
-function addCircle() {
-  circle = document.createElement("div");
-  circle.className = "circle";
-  var diameter = updateCirclesDiameter(numCircles);
-  circle.style.width = "{}px".format(diameter);
-  circle.style.height = "{}px".format(diameter);
-  document.getElementById("circle-div").appendChild(circle);
-}
-
-function updateCircles(age) {
-  for (let i = 0; i < age; i++) {
-    addCircle();
-  }
-}
-
-function onResize() {
-  /*
-  circle_div = document.getElementById("circle-div");
-  circle_div.remove();
-
-  new_circle_div = document.createElement("div");
-  new_circle_div.id = "circle-div";
-  document.getElementById("body").appendChild(new_circle_div);
-  updateCircles(numCircles);
-  */
-  ;
+  return Math.floor(Math.sqrt((divWidth * 0.96 * divHeight) / numCircles));
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight*0.9);
+  var canvas = createCanvas(windowWidth, windowHeight*0.9);
+  canvas.id("circle-div");
   background(0, 0, 0);
-  var diameter = Math.floor(Math.sqrt(windowWidth * 0.8 * windowHeight / numCircles));
+
+  var diameter = getDiameter();
   var x = diameter/2;
   var y = diameter/2;
   
   for (let i = 0; i < numCircles; i++) {
     circle(x, y, diameter);
     x += diameter;
-    if (x > windowWidth-diameter) {
+    if (x > windowWidth-diameter/2) {
       x = diameter/2;
       y += diameter;
     }
