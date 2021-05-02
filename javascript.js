@@ -13,17 +13,19 @@ String.prototype.format = function () {
   });
 };
 
-function calculateCircleDiameter(numCircles) {
+var numCircles = 980;
+
+function updateCirclesDiameter(numCircles) {
   circle_div = document.getElementById("circle-div");
   var divWidth = circle_div.offsetWidth;
   var divHeight = circle_div.offsetHeight;
-  return Math.floor(Math.sqrt(divWidth * 0.8 * divHeight / numCircles))
+  return Math.floor(Math.sqrt(divWidth * 0.8 * divHeight / numCircles));
 }
 
 function addCircle() {
   circle = document.createElement("div");
   circle.className = "circle";
-  var diameter = calculateCircleDiameter(80);
+  var diameter = updateCirclesDiameter(numCircles);
   circle.style.width = "{}px".format(diameter);
   circle.style.height = "{}px".format(diameter);
   document.getElementById("circle-div").appendChild(circle);
@@ -36,13 +38,35 @@ function updateCircles(age) {
 }
 
 function onResize() {
+  /*
   circle_div = document.getElementById("circle-div");
   circle_div.remove();
 
   new_circle_div = document.createElement("div");
   new_circle_div.id = "circle-div";
   document.getElementById("body").appendChild(new_circle_div);
-  updateCircles(80);
+  updateCircles(numCircles);
+  */
+  ;
 }
 
-updateCircles(80);
+function setup() {
+  createCanvas(windowWidth, windowHeight*0.9);
+  background(0, 0, 0);
+  var diameter = Math.floor(Math.sqrt(windowWidth * 0.8 * windowHeight / numCircles));
+  var x = diameter/2;
+  var y = diameter/2;
+  
+  for (let i = 0; i < numCircles; i++) {
+    circle(x, y, diameter);
+    x += diameter;
+    if (x > windowWidth-diameter) {
+      x = diameter/2;
+      y += diameter;
+    }
+  }
+}
+
+function windowResized() {
+  setup();
+}
