@@ -4,13 +4,12 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;  /* Hide scrollbars */
-  background-color: rgb(240, 248, 255)ue;
+  background-color: rgb(240, 248, 255);
 }
 
 #hamburger-icon {   
   padding: 4px;
   margin: 8px;
-  height: 4%;
  }
 
 .hamburger-line {
@@ -30,8 +29,6 @@ h2 {
   margin: 5px;
 }
 
-#circle-div {
-  background-color: rgb(240, 248, 255);
+#expectedAge {
+  display: block;
 }
-
-

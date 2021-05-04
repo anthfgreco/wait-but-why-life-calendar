@@ -32,6 +32,15 @@
         <div class="uk-offcanvas-bar">
           <h2>Set your birthday:</h2>
           <input type="date" id="bdayPicker" />
+          
+          <input type="number" id="expectedAge" value="80" min="1" max="200">
+          
+          <input type="radio" id="weeks" name="date-format" value="weeks">
+          <label for="weeks">Weeks</label><br>
+          <input type="radio" id="months" name="date-format" value="months">
+          <label for="months">Months</label><br>
+          <input type="radio" id="years" name="date-format" value="years">
+          <label for="years">Years</label>
 
           <button class="uk-offcanvas-close" type="button" uk-close></button>
         </div>
