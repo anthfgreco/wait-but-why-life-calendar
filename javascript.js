@@ -19,8 +19,10 @@ const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2
 ***  Main Program
 ***************************************************************************************************************/
 
-var numCircles = 4160/52;    // Number of circles to be displayed on canvas
-var margin = 4;           // Controls space between circles
+var expectedAge = 80;
+var dateMultiplier = 1    // 1 for years, 12 for months, 52 for weeks
+var numCircles = expectedAge * dateMultiplier;    // Number of circles to be displayed on canvas
+var margin = 2;           // Controls space between circles
 
 function getDiameter() {
   circle_div = document.getElementById("circle-div");
@@ -58,7 +60,9 @@ function windowResized() {
   setup();
 }
 
-
+/**************************************************************************************************************
+***  Listeners
+***************************************************************************************************************/
 
 // Initializes date picker to current date
 document.querySelector("#bdayPicker").valueAsDate = new Date();
@@ -74,5 +78,25 @@ document.getElementById("bdayPicker").addEventListener("change", function() {
 // Expected age listener
 document.getElementById("expectedAge").addEventListener("change", function() {
   var input = this.value;
-  console.log(input);
+  numCircles = input;
+  setup();
 });
+
+document.getElementById("test").addEventListener("change", function() {
+  var input = document.querySelector('input[name="date-format"]:checked').value;
+  switch (input) {
+    case "weeks":
+      dateMultiplier = 52;
+      break;
+    case "months":
+      dateMultiplier = 12;
+      break;
+    case "years":
+      dateMultiplier = 1;
+      break;
+  }
+  numCircles = expectedAge * dateMultiplier;
+  setup();
+});
+
+document.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='text'){e.preventDefault();return false;}}},true);

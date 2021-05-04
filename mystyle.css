@@ -32,3 +32,7 @@ h2 {
 #expectedAge {
   display: block;
 }
+
+p {
+  margin: 0;
+}
