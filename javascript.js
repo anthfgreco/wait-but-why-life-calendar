@@ -20,25 +20,26 @@ const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2
 ***************************************************************************************************************/
 
 var expectedAge = 80;
-var dateMultiplier = 1    // 1 for years, 12 for months, 52 for weeks
+var dateMultiplier = 1;    // 1 for years, 12 for months, 52 for weeks
 var numCircles = expectedAge * dateMultiplier;    // Number of circles to be displayed on canvas
 var margin = 2;           // Controls space between circles
+var sizeMultiplier = 0.90;
 
 function getDiameter() {
   circle_div = document.getElementById("circle-div");
   var divWidth = circle_div.offsetWidth;
   var divHeight = circle_div.offsetHeight;
-  return Math.floor(Math.sqrt((divWidth * divHeight) / numCircles)) / 1.1;
+  return sizeMultiplier * (Math.floor(Math.sqrt((divWidth * divHeight) / numCircles)));
 }
 
 function setup() {
   // Set up canvas
-  var canvas = createCanvas(windowWidth*0.9, windowHeight*0.9);
+  var canvas = createCanvas(windowWidth*0.95, windowHeight*0.9);
   canvas.id("circle-div");
-  var x = (windowWidth - width) / 2;
-  var y = 20 + (windowHeight - height) / 2;
-  canvas.position(x, y);
-  background(240, 248, 0);
+  var canvasX = (windowWidth - width) / 2;
+  var canvasY = 20 + (windowHeight - height) / 2;
+  canvas.position(canvasX, canvasY);
+  background(240, 248, 255);
 
   var diameter = getDiameter() - margin;
   var x = diameter/2 + margin;
@@ -49,7 +50,7 @@ function setup() {
     fill(c);
     circle(x, y, diameter);
     x += diameter + margin;
-    if (x > windowWidth*0.9 - diameter/2) {
+    if (x > windowWidth*0.95 - diameter/2) {
       x = diameter/2 + margin; //default
       y += diameter + margin;
     }
@@ -82,17 +83,20 @@ document.getElementById("expectedAge").addEventListener("change", function() {
   setup();
 });
 
-document.getElementById("test").addEventListener("change", function() {
+document.getElementById("radio-buttons").addEventListener("change", function() {
   var input = document.querySelector('input[name="date-format"]:checked').value;
   switch (input) {
     case "weeks":
       dateMultiplier = 52;
+      sizeMultiplier = 0.98;
       break;
     case "months":
       dateMultiplier = 12;
+      sizeMultiplier = 0.95;
       break;
     case "years":
       dateMultiplier = 1;
+      sizeMultiplier = 0.90;
       break;
   }
   numCircles = expectedAge * dateMultiplier;

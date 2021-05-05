@@ -36,3 +36,7 @@ h2 {
 p {
   margin: 0;
 }
+
+fieldset {
+  margin-top: 20px;
+}
