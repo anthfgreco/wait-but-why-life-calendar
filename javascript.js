@@ -15,6 +15,34 @@ String.prototype.format = function () {
 
 const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
 
+/**
+ * Source: https://stackoverflow.com/a/2536445/12198438
+ * @param {date} d1 
+ * @param {date} d2 
+ * @returns number of months between d1 and d2
+ */
+function monthDifference(d1, d2) {
+  var months;
+  months = (d2.getFullYear() - d1.getFullYear()) * 12;
+  months -= d1.getMonth();
+  months += d2.getMonth();
+  return months <= 0 ? 0 : months;
+}
+
+function yearDifference(d1, d2) {
+  var ms_difference = d2 - d1;
+  var ageDate = new Date(ms_difference);
+  return ageDate.getUTCFullYear() - 1970;
+}
+
+function weekDifference(d1, d2) {
+  // # of milliseconds in one week
+	var ONE_WEEK = 604800000;
+	// Calculate the difference in milliseconds
+	var ms_difference = Math.abs(d1.getTime() - d2.getTime());
+	// Convert back to weeks and return weeks
+	return Math.floor(ms_difference / ONE_WEEK);
+}
 
 /**************************************************************************************************************
 ***  Main Program
@@ -52,7 +80,7 @@ function setup() {
   for (let i = 0; i < numCircles; i++) {
     // Circles that you've already lived
     if (j > 0) {
-      var c = color(0, 0, 0);
+      var c = color(0, 255, 0);
     // Circles that you have yet to live
     }
     else {
@@ -78,20 +106,30 @@ function windowResized() {
 ***************************************************************************************************************/
 
 // Initializes date picker to current date
-document.querySelector("#bdayPicker").valueAsDate = new Date();
+document.getElementById("bdayPicker").valueAsDate = new Date();
 
 // Bday picker listener
 document.getElementById("bdayPicker").addEventListener("change", function() {
-  var input = this.value;             //e.g. 2015-11-13
-  var birthday = new Date(input);  //e.g. Fri Nov 13 2015 00:00:00 GMT+0000 (GMT Standard Time)
-
-  var ms_since_birthday = Date.now() - birthday;
-  var ageDate = new Date(ms_since_birthday);
-  var yearAge = ageDate.getUTCFullYear() - 1970;
+  var input = this.value;                 //e.g. 2015-11-13
+  var birthday = new Date(input);         //e.g. Fri Nov 13 2015 00:00:00 GMT+0000 (GMT Standard Time)
+  var presentDate = new Date(Date.now());
   
-  if (dateMultiplier == 1) {
-    circlesLived = yearAge;
+  var months = monthDifference(birthday, presentDate);
+  var years = yearDifference(birthday, presentDate);
+  var weeks = weekDifference(birthday, presentDate);
+
+  switch (dateMultiplier) {
+    case 1:
+      circlesLived = years;
+      break;
+    case 12:
+      circlesLived = months;
+      break;
+    case 52:
+      circlesLived = weeks;
+      break;
   }
+  
   setup();
 });
 
@@ -106,17 +144,17 @@ document.getElementById("expectedAge").addEventListener("change", function() {
 document.getElementById("radio-buttons").addEventListener("change", function() {
   var input = document.querySelector('input[name="date-format"]:checked').value;
   switch (input) {
-    case "weeks":
-      dateMultiplier = 52;
-      sizeMultiplier = 0.98;
+    case "years":
+      dateMultiplier = 1;
+      sizeMultiplier = 0.90;
       break;
     case "months":
       dateMultiplier = 12;
       sizeMultiplier = 0.95;
       break;
-    case "years":
-      dateMultiplier = 1;
-      sizeMultiplier = 0.90;
+    case "weeks":
+      dateMultiplier = 52;
+      sizeMultiplier = 0.98;
       break;
   }
   numCircles = expectedAge * dateMultiplier;
