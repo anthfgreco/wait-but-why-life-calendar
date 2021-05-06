@@ -58,15 +58,16 @@ var circlesLived = 0;
 var presentDate = new Date(Date.now());
 var birthday = new Date(Date.now());
 
-// 0 70 --- 200 220
-// Styling variables
+// Object for coloring circles
+// (r1, g1, b1) is gradient for filled circles
+// (r2, g2, b2) is gradient for unfilled circles
 var circleColor = {
   r1: [0,70],
   g1: [0,70],
-  b1: [0,70],
-  r2: [200,220],
-  g2: [200,220],
-  b2: [200,220]
+  b1: [80,255],
+  r2: [180,220],
+  g2: [180,220],
+  b2: [200,255]
 }
 
 function getDiameter() {
@@ -192,21 +193,10 @@ document.getElementById("theme-selector").addEventListener("change", function() 
   var input = document.getElementById("theme-selector").value;
 
   switch (input) {
-    case "Silver":
-      document.documentElement.style.setProperty('--offbar-background-color', 'rgb(50, 50, 50)');
-      document.documentElement.style.setProperty('--canvas-background-color', 'rgb(247, 247, 247)');
-      circleColor = {
-        r1: [0,70],
-        g1: [0,70],
-        b1: [0,70],
-        r2: [200,220],
-        g2: [200,220],
-        b2: [200,220]
-      }
-      break;
     case "Sky Blue":
       document.documentElement.style.setProperty('--offbar-background-color', 'rgb(37, 37, 125)');
       document.documentElement.style.setProperty('--canvas-background-color', 'rgb(247, 247, 247)');
+      document.documentElement.style.setProperty('--hamburger-color', 'rgb(0, 0, 0)');
       circleColor = {
         r1: [0,70],
         g1: [0,70],
@@ -216,9 +206,23 @@ document.getElementById("theme-selector").addEventListener("change", function() 
         b2: [200,255]
       }
       break;
+    case "Silver":
+      document.documentElement.style.setProperty('--offbar-background-color', 'rgb(50, 50, 50)');
+      document.documentElement.style.setProperty('--canvas-background-color', 'rgb(247, 247, 247)');
+      document.documentElement.style.setProperty('--hamburger-color', 'rgb(0, 0, 0)');
+      circleColor = {
+        r1: [0,70],
+        g1: [0,70],
+        b1: [0,70],
+        r2: [200,220],
+        g2: [200,220],
+        b2: [200,220]
+      }
+      break;
     case "Mine Shaft":
       document.documentElement.style.setProperty('--offbar-background-color', 'rgb(20, 20, 20)');
       document.documentElement.style.setProperty('--canvas-background-color', 'rgb(60, 60, 60)');
+      document.documentElement.style.setProperty('--hamburger-color', 'rgb(230, 230, 230)');
       circleColor = {
         r1: [255,200],
         g1: [255,200],
@@ -226,6 +230,19 @@ document.getElementById("theme-selector").addEventListener("change", function() 
         r2: [50,25],
         g2: [50,25],
         b2: [50,25]
+      }
+      break;
+      case "Acid":
+      document.documentElement.style.setProperty('--offbar-background-color', 'rgb(0,0,0)');
+      document.documentElement.style.setProperty('--canvas-background-color', 'rgb(0,0,0)');
+      document.documentElement.style.setProperty('--hamburger-color', 'rgb(137,255,0)');	
+      circleColor = {
+        r1: [137,150],
+        g1: [200,255],
+        b1: [0,0],
+        r2: [5,45],
+        g2: [5,45],
+        b2: [0,0]
       }
       break;
   }

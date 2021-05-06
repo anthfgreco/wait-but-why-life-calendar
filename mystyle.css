@@ -1,6 +1,7 @@
 :root {
-  --offbar-background-color: rgb(50, 50, 50);
+  --offbar-background-color: rgb(37, 37, 125);
   --canvas-background-color: rgb(247, 247, 247);
+  --hamburger-color: rgb(0, 0, 0);
 }
 
 html, body {
@@ -20,7 +21,7 @@ html, body {
 .hamburger-line {
    width: 27px;
    height: 3px;
-   background-color: black;
+   background-color: var(--hamburger-color);
    margin: 6px 0;
  }
   
@@ -44,4 +45,16 @@ h2 {
 
 p {
   margin: 0;
+}
+
+/* Hides arrows in number input */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; 
+}
+
+/* Hides arrows in number input for Mozilla browsers*/
+input[type=number] {
+    -moz-appearance:textfield;
 }
