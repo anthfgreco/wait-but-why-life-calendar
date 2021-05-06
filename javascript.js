@@ -48,14 +48,26 @@ function weekDifference(d1, d2) {
 ***  Main Program
 ***************************************************************************************************************/
 
+// Global variables for main program and listeners
 var expectedAge = 80;
 var dateMultiplier = 1;    // 1 for years, 12 for months, 52 for weeks
 var numCircles = expectedAge * dateMultiplier;    // Number of circles to be displayed on canvas
-var margin = 2;           // Controls space between circles
+var margin = 1;           // Controls space between circles
 var sizeMultiplier = 0.90;
 var circlesLived = 0;
 var presentDate = new Date(Date.now());
 var birthday = new Date(Date.now());
+
+// 0 70 --- 200 220
+// Styling variables
+var circleColor = {
+  r1: [0,70],
+  g1: [0,70],
+  b1: [0,70],
+  r2: [200,220],
+  g2: [200,220],
+  b2: [200,220]
+}
 
 function getDiameter() {
   circle_div = document.getElementById("circle-div");
@@ -71,7 +83,7 @@ function setup() {
   var canvasX = (windowWidth - width) / 2;
   var canvasY = 20 + (windowHeight - height) / 2;
   canvas.position(canvasX, canvasY);
-  background(240, 248, 255);
+  background(getComputedStyle(document.documentElement).getPropertyValue('--canvas-background-color'));
 
   var diameter = getDiameter() - margin;
   var x = diameter/2 + margin;
@@ -82,13 +94,23 @@ function setup() {
   for (let i = 0; i < numCircles; i++) {
     // Circles that you've already lived
     if (j > 0) {
-      var c = color(0, 255, 0);
+      // 0 70
+      var r = map(i, 0, circlesLived, circleColor.r1[0], circleColor.r1[1]);
+      var g = map(i, 0, circlesLived, circleColor.g1[0], circleColor.g1[1]);
+      var b = map(i, 0, circlesLived, circleColor.b1[0], circleColor.b1[1]);
+      var c = color(r, g, b);
     // Circles that you have yet to live
     }
     else {
-      var c = color(0, 0, map(i, 0, numCircles, 0, 255));
+      // 200 220
+      var r = map(i, circlesLived, numCircles, circleColor.r2[0], circleColor.r2[1]);
+      var g = map(i, circlesLived, numCircles, circleColor.g2[0], circleColor.g2[1]);
+      var b = map(i, circlesLived, numCircles, circleColor.b2[0], circleColor.b2[1]);
+      var c = color(r, g, b);
     }
     fill(c);
+    strokeWeight(0);
+    //strokeWeight(1);
     circle(x, y, diameter);
     x += diameter + margin;
     if (x > windowWidth*0.95 - diameter/2) {
@@ -170,14 +192,43 @@ document.getElementById("theme-selector").addEventListener("change", function() 
   var input = document.getElementById("theme-selector").value;
 
   switch (input) {
-    case "Dark Grey":
-      document.documentElement.style.setProperty('--offbar-background-color', 'rgb(37, 37, 37)');
+    case "Silver":
+      document.documentElement.style.setProperty('--offbar-background-color', 'rgb(50, 50, 50)');
+      document.documentElement.style.setProperty('--canvas-background-color', 'rgb(247, 247, 247)');
+      circleColor = {
+        r1: [0,70],
+        g1: [0,70],
+        b1: [0,70],
+        r2: [200,220],
+        g2: [200,220],
+        b2: [200,220]
+      }
       break;
     case "Sky Blue":
       document.documentElement.style.setProperty('--offbar-background-color', 'rgb(37, 37, 125)');
+      document.documentElement.style.setProperty('--canvas-background-color', 'rgb(247, 247, 247)');
+      circleColor = {
+        r1: [0,70],
+        g1: [0,70],
+        b1: [80,255],
+        r2: [180,220],
+        g2: [180,220],
+        b2: [200,255]
+      }
       break;
-    case "test":
-
+    case "Mine Shaft":
+      document.documentElement.style.setProperty('--offbar-background-color', 'rgb(20, 20, 20)');
+      document.documentElement.style.setProperty('--canvas-background-color', 'rgb(60, 60, 60)');
+      circleColor = {
+        r1: [255,200],
+        g1: [255,200],
+        b1: [255,200],
+        r2: [50,25],
+        g2: [50,25],
+        b2: [50,25]
+      }
       break;
   }
+
+  setup();
 });

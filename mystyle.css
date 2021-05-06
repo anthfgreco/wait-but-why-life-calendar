@@ -1,5 +1,6 @@
 :root {
-  --offbar-background-color: rgb(37, 37, 37);
+  --offbar-background-color: rgb(50, 50, 50);
+  --canvas-background-color: rgb(247, 247, 247);
 }
 
 html, body {
@@ -8,7 +9,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;  /* Hide scrollbars */
-  background-color: rgb(240, 248, 255);
+  background-color: var(--canvas-background-color);
 }
 
 #hamburger-icon {   
@@ -39,4 +40,8 @@ h2 {
 
 .uk-offcanvas-bar {
   background-color: var(--offbar-background-color);
+}
+
+p {
+  margin: 0;
 }
