@@ -1,3 +1,7 @@
+:root {
+  --offbar-background-color: rgb(37, 37, 37);
+}
+
 html, body {
   height: 100%;
   width: 100%;
@@ -30,13 +34,9 @@ h2 {
 }
 
 #expectedAge {
-  display: block;
+  width: 75px;
 }
 
-p {
-  margin: 0;
-}
-
-fieldset {
-  margin-top: 20px;
+.uk-offcanvas-bar {
+  background-color: var(--offbar-background-color);
 }

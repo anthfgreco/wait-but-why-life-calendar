@@ -28,27 +28,33 @@
     <a href="#off-canvas" uk-toggle></a>
 
     <!-- Off-canvas -->
-    <div id="off-canvas" uk-offcanvas>
-        <div class="uk-offcanvas-bar">
+    <div id="off-canvas" uk-offcanvas="mode: slide">
+        <div class="uk-offcanvas-bar" id="uk-offcanvas-bar">
           <fieldset data-uk-margin>
               <legend>Settings</legend>
 
               <p>Select your birthday:</p>
               <input type="date" id="bdayPicker" />
 
-              <p>Expected age:</p>
-              <input type="number" id="expectedAge" value="80">
+              <div id="expected-age-div">
+                <p>Expected age:</p>
+                <input type="number" id="expectedAge" value="80" class="uk-textarea">
+              </div>
 
-              <br>
-              
-              <div id="radio-buttons">
-                <input type="radio" id="weeks" name="date-format" value="weeks">
+              <div id="radio-buttons-div">
+                <input type="radio" id="weeks" name="date-format" value="weeks" class="uk-radio">
                 <label for="weeks">Weeks</label><br>
-                <input type="radio" id="months" name="date-format" value="months">
+                <input type="radio" id="months" name="date-format" value="months" class="uk-radio">
                 <label for="months">Months</label><br>
-                <input type="radio" id="years" name="date-format" value="years" checked>
+                <input type="radio" id="years" name="date-format" value="years" class="uk-radio" checked>
                 <label for="years">Years</label>
               </div>
+
+              <p>Theme:</p>
+              <select class="uk-select" id="theme-selector">
+                <option>Dark Grey</option>
+                <option>Sky Blue</option>
+              </select>
           </fieldset>
           <button class="uk-offcanvas-close" type="button" uk-close></button>
         </div>

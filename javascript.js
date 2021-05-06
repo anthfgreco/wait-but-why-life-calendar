@@ -134,13 +134,15 @@ document.getElementById("bdayPicker").addEventListener("change", function() {
 // Expected age listener
 document.getElementById("expectedAge").addEventListener("keyup", function() {
   var input = this.value;
-  numCircles = input;
+  expectedAge = input;
+  numCircles = expectedAge * dateMultiplier;
   setup();
 });
 
 // Radio buttons listener
-document.getElementById("radio-buttons").addEventListener("change", function() {
+document.getElementById("radio-buttons-div").addEventListener("change", function() {
   var input = document.querySelector('input[name="date-format"]:checked').value;
+
   switch (input) {
     case "years":
       dateMultiplier = 1;
@@ -158,6 +160,24 @@ document.getElementById("radio-buttons").addEventListener("change", function() {
       circlesLived = weekDifference(birthday, presentDate);
       break;
   }
+
   numCircles = expectedAge * dateMultiplier;
   setup();
+});
+
+// Theme selector listener
+document.getElementById("theme-selector").addEventListener("change", function() {
+  var input = document.getElementById("theme-selector").value;
+
+  switch (input) {
+    case "Dark Grey":
+      document.documentElement.style.setProperty('--offbar-background-color', 'rgb(37, 37, 37)');
+      break;
+    case "Sky Blue":
+      document.documentElement.style.setProperty('--offbar-background-color', 'rgb(37, 37, 125)');
+      break;
+    case "test":
+
+      break;
+  }
 });
