@@ -15,6 +15,7 @@ String.prototype.format = function () {
 
 const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
 
+
 /**************************************************************************************************************
 ***  Main Program
 ***************************************************************************************************************/
@@ -24,6 +25,7 @@ var dateMultiplier = 1;    // 1 for years, 12 for months, 52 for weeks
 var numCircles = expectedAge * dateMultiplier;    // Number of circles to be displayed on canvas
 var margin = 2;           // Controls space between circles
 var sizeMultiplier = 0.90;
+var circlesLived = 0;
 
 function getDiameter() {
   circle_div = document.getElementById("circle-div");
@@ -45,8 +47,17 @@ function setup() {
   var x = diameter/2 + margin;
   var y = diameter/2 + margin;
   
+  var j = circlesLived;
+
   for (let i = 0; i < numCircles; i++) {
-    let c = color(0, 0, map(i, 0, numCircles, 0, 255));
+    // Circles that you've already lived
+    if (j > 0) {
+      var c = color(0, 0, 0);
+    // Circles that you have yet to live
+    }
+    else {
+      var c = color(0, 0, map(i, 0, numCircles, 0, 255));
+    }
     fill(c);
     circle(x, y, diameter);
     x += diameter + margin;
@@ -54,6 +65,7 @@ function setup() {
       x = diameter/2 + margin; //default
       y += diameter + margin;
     }
+    j--;
   }
 }
 
@@ -70,10 +82,17 @@ document.querySelector("#bdayPicker").valueAsDate = new Date();
 
 // Bday picker listener
 document.getElementById("bdayPicker").addEventListener("change", function() {
-  var input = this.value;
-  var dateEntered = new Date(input);
-  console.log(input); //e.g. 2015-11-13
-  console.log(dateEntered); //e.g. Fri Nov 13 2015 00:00:00 GMT+0000 (GMT Standard Time)
+  var input = this.value;             //e.g. 2015-11-13
+  var birthday = new Date(input);  //e.g. Fri Nov 13 2015 00:00:00 GMT+0000 (GMT Standard Time)
+
+  var ms_since_birthday = Date.now() - birthday;
+  var ageDate = new Date(ms_since_birthday);
+  var yearAge = ageDate.getUTCFullYear() - 1970;
+  
+  if (dateMultiplier == 1) {
+    circlesLived = yearAge;
+  }
+  setup();
 });
 
 // Expected age listener
@@ -83,6 +102,7 @@ document.getElementById("expectedAge").addEventListener("change", function() {
   setup();
 });
 
+// Radio buttons listener
 document.getElementById("radio-buttons").addEventListener("change", function() {
   var input = document.querySelector('input[name="date-format"]:checked').value;
   switch (input) {
@@ -102,5 +122,3 @@ document.getElementById("radio-buttons").addEventListener("change", function() {
   numCircles = expectedAge * dateMultiplier;
   setup();
 });
-
-document.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='text'){e.preventDefault();return false;}}},true);
