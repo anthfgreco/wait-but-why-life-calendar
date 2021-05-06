@@ -30,29 +30,26 @@
     <!-- Off-canvas -->
     <div id="off-canvas" uk-offcanvas>
         <div class="uk-offcanvas-bar">
-          
-          <form class="uk-form" onkeypress="return event.keyCode != 13;">
-            <fieldset data-uk-margin>
-                <legend>Settings</legend>
-                <p>Select your birthday:</p>
-                <input type="date" id="bdayPicker" />
+          <fieldset data-uk-margin>
+              <legend>Settings</legend>
 
-                <p>Expected age:</p>
-                <input type="number" id="expectedAge" value="80">
+              <p>Select your birthday:</p>
+              <input type="date" id="bdayPicker" />
 
-                <br>
-                
-                <div id="radio-buttons">
+              <p>Expected age:</p>
+              <input type="number" id="expectedAge" value="80">
+
+              <br>
+              
+              <div id="radio-buttons">
                 <input type="radio" id="weeks" name="date-format" value="weeks">
                 <label for="weeks">Weeks</label><br>
                 <input type="radio" id="months" name="date-format" value="months">
                 <label for="months">Months</label><br>
                 <input type="radio" id="years" name="date-format" value="years" checked>
                 <label for="years">Years</label>
-                </div>
-            </fieldset>
-        </form>
-
+              </div>
+          </fieldset>
           <button class="uk-offcanvas-close" type="button" uk-close></button>
         </div>
     </div>

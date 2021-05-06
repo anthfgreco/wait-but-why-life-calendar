@@ -1,5 +1,5 @@
 /**************************************************************************************************************
-***  General Functions
+***  Functions
 ***************************************************************************************************************/
 
 /**
@@ -54,6 +54,8 @@ var numCircles = expectedAge * dateMultiplier;    // Number of circles to be dis
 var margin = 2;           // Controls space between circles
 var sizeMultiplier = 0.90;
 var circlesLived = 0;
+var presentDate = new Date(Date.now());
+var birthday = new Date(Date.now());
 
 function getDiameter() {
   circle_div = document.getElementById("circle-div");
@@ -110,23 +112,19 @@ document.getElementById("bdayPicker").valueAsDate = new Date();
 
 // Bday picker listener
 document.getElementById("bdayPicker").addEventListener("change", function() {
-  var input = this.value;                 //e.g. 2015-11-13
-  var birthday = new Date(input);         //e.g. Fri Nov 13 2015 00:00:00 GMT+0000 (GMT Standard Time)
-  var presentDate = new Date(Date.now());
+  var input = this.value;      //e.g. 2015-11-13
+  birthday = new Date(input);  //e.g. Fri Nov 13 2015 00:00:00 GMT+0000 (GMT Standard Time)
   
-  var months = monthDifference(birthday, presentDate);
-  var years = yearDifference(birthday, presentDate);
-  var weeks = weekDifference(birthday, presentDate);
-
+  // Update circles that you've already lived
   switch (dateMultiplier) {
     case 1:
-      circlesLived = years;
+      circlesLived = yearDifference(birthday, presentDate);
       break;
     case 12:
-      circlesLived = months;
+      circlesLived = monthDifference(birthday, presentDate);
       break;
     case 52:
-      circlesLived = weeks;
+      circlesLived = weekDifference(birthday, presentDate);
       break;
   }
   
@@ -134,7 +132,7 @@ document.getElementById("bdayPicker").addEventListener("change", function() {
 });
 
 // Expected age listener
-document.getElementById("expectedAge").addEventListener("change", function() {
+document.getElementById("expectedAge").addEventListener("keyup", function() {
   var input = this.value;
   numCircles = input;
   setup();
@@ -147,14 +145,17 @@ document.getElementById("radio-buttons").addEventListener("change", function() {
     case "years":
       dateMultiplier = 1;
       sizeMultiplier = 0.90;
+      circlesLived = yearDifference(birthday, presentDate);
       break;
     case "months":
       dateMultiplier = 12;
       sizeMultiplier = 0.95;
+      circlesLived = monthDifference(birthday, presentDate);
       break;
     case "weeks":
       dateMultiplier = 52;
       sizeMultiplier = 0.98;
+      circlesLived = weekDifference(birthday, presentDate);
       break;
   }
   numCircles = expectedAge * dateMultiplier;
