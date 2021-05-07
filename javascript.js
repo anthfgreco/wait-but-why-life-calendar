@@ -1,5 +1,5 @@
 /**************************************************************************************************************
-***  Functions
+***  Functions  ***********************************************************************************************
 ***************************************************************************************************************/
 
 /**
@@ -13,35 +13,40 @@ String.prototype.format = function () {
   });
 };
 
+/**
+ * Maps value from [x1, y1] -> [x2, y2]
+ * @param {number} value  Number in range [x1, y1]
+ * @param {number} x1     Beginning range [x1, y1]
+ * @param {number} y1     Beginning range [x1, y1]
+ * @param {number} x2     End range [x2, y2]
+ * @param {number} y2     End range [x2, y2]
+ * @returns mapped value from [x1, y1] -> [x2, y2]
+ */
 const map = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
 
 /**
- * Source: https://stackoverflow.com/a/2536445/12198438
- * @param {date} d1 
- * @param {date} d2 
- * @returns number of months between d1 and d2
+ * Get the difference between a date (birthday) and the current time to calculate age
+ * Depending on dateMultiplier, age can be in either years, months, or weeks
+ * @param {date object} date                  Birthday date
+ * @param {int: (1, 12, 52)} dateMultiplier   1 for years, 12 for months, 52 for weeks
+ * @returns {float}                           Difference in weeks, months, or years depending on dateMultiplier
  */
-function monthDifference(d1, d2) {
-  var months;
-  months = (d2.getFullYear() - d1.getFullYear()) * 12;
-  months -= d1.getMonth();
-  months += d2.getMonth();
-  return months <= 0 ? 0 : months;
-}
+function birthdayToNowDifference(date, dateMultiplier) {
+  var now = dayjs();
 
-function yearDifference(d1, d2) {
-  var ms_difference = d2 - d1;
-  var ageDate = new Date(ms_difference);
-  return ageDate.getUTCFullYear() - 1970;
-}
-
-function weekDifference(d1, d2) {
-  // # of milliseconds in one week
-	var ONE_WEEK = 604800000;
-	// Calculate the difference in milliseconds
-	var ms_difference = Math.abs(d1.getTime() - d2.getTime());
-	// Convert back to weeks and return weeks
-	return Math.floor(ms_difference / ONE_WEEK);
+  switch (dateMultiplier) {
+    case 1:
+      difference = now.diff(date, 'year', true);
+      break;
+    case 12:
+      difference = now.diff(date, 'month', true);
+      break;
+    case 52:
+      difference = now.diff(date, 'week', true);
+      break
+  }
+  
+  return difference;
 }
 
 /**************************************************************************************************************
@@ -50,13 +55,12 @@ function weekDifference(d1, d2) {
 
 // Global variables for main program and listeners
 var expectedAge = 80;
-var dateMultiplier = 1;    // 1 for years, 12 for months, 52 for weeks
-var numCircles = expectedAge * dateMultiplier;    // Number of circles to be displayed on canvas
-var margin = 1;           // Controls space between circles
-var sizeMultiplier = 0.90;
+var dateMultiplier = 1; // 1 for years, 12 for months, 52 for weeks
+var numCircles = expectedAge * dateMultiplier;  // Number of circles to be displayed on canvas
+var margin = 1; // Controls space between circles
+var sizeMultiplier = 0.90;  // Controls size of canvas
 var circlesLived = 0;
-var presentDate = new Date(Date.now());
-var birthday = new Date(Date.now());
+var birthday = dayjs();  // Set default to today's date
 
 // Object for coloring circles
 // (r1, g1, b1) is gradient for filled circles
@@ -95,31 +99,31 @@ function setup() {
   for (let i = 0; i < numCircles; i++) {
     // Circles that you've already lived
     if (j > 0) {
-      // 0 70
       var r = map(i, 0, circlesLived, circleColor.r1[0], circleColor.r1[1]);
       var g = map(i, 0, circlesLived, circleColor.g1[0], circleColor.g1[1]);
       var b = map(i, 0, circlesLived, circleColor.b1[0], circleColor.b1[1]);
-      var c = color(r, g, b);
     // Circles that you have yet to live
     }
     else {
-      // 200 220
       var r = map(i, circlesLived, numCircles, circleColor.r2[0], circleColor.r2[1]);
       var g = map(i, circlesLived, numCircles, circleColor.g2[0], circleColor.g2[1]);
       var b = map(i, circlesLived, numCircles, circleColor.b2[0], circleColor.b2[1]);
-      var c = color(r, g, b);
     }
+
+    var c = color(r, g, b);
     fill(c);
     strokeWeight(0);
-    //strokeWeight(1);
     circle(x, y, diameter);
+
     x += diameter + margin;
+
     if (x > windowWidth*0.95 - diameter/2) {
       x = diameter/2 + margin; //default
       y += diameter + margin;
     }
     j--;
   }
+  //arc(155, 155, diameter, diameter, 0, 0.5 * (2 *PI));
 }
 
 function windowResized() {
@@ -127,7 +131,7 @@ function windowResized() {
 }
 
 /**************************************************************************************************************
-***  Listeners
+***  Listeners  ***********************************************************************************************
 ***************************************************************************************************************/
 
 // Initializes date picker to current date
@@ -135,22 +139,9 @@ document.getElementById("bdayPicker").valueAsDate = new Date();
 
 // Bday picker listener
 document.getElementById("bdayPicker").addEventListener("change", function() {
-  var input = this.value;      //e.g. 2015-11-13
-  birthday = new Date(input);  //e.g. Fri Nov 13 2015 00:00:00 GMT+0000 (GMT Standard Time)
-  
+  birthday = this.value;  //ex. 2000-11-13
   // Update circles that you've already lived
-  switch (dateMultiplier) {
-    case 1:
-      circlesLived = yearDifference(birthday, presentDate);
-      break;
-    case 12:
-      circlesLived = monthDifference(birthday, presentDate);
-      break;
-    case 52:
-      circlesLived = weekDifference(birthday, presentDate);
-      break;
-  }
-  
+  circlesLived = birthdayToNowDifference(birthday, dateMultiplier);
   setup();
 });
 
@@ -170,20 +161,19 @@ document.getElementById("radio-buttons-div").addEventListener("change", function
     case "years":
       dateMultiplier = 1;
       sizeMultiplier = 0.90;
-      circlesLived = yearDifference(birthday, presentDate);
       break;
     case "months":
       dateMultiplier = 12;
       sizeMultiplier = 0.95;
-      circlesLived = monthDifference(birthday, presentDate);
       break;
     case "weeks":
       dateMultiplier = 52;
       sizeMultiplier = 0.98;
-      circlesLived = weekDifference(birthday, presentDate);
       break;
   }
 
+  // Update circles
+  circlesLived = birthdayToNowDifference(birthday, dateMultiplier);
   numCircles = expectedAge * dateMultiplier;
   setup();
 });
@@ -275,3 +265,7 @@ document.getElementById("theme-selector").addEventListener("change", function() 
 
   setup();
 });
+
+/**************************************************************************************************************
+***************************************************************************************************************
+***************************************************************************************************************/
