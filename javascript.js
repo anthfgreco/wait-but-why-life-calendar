@@ -258,6 +258,19 @@ document.getElementById("theme-selector").addEventListener("change", function() 
         b2: [40,70]
       }
       break;
+      case "Sweet Purple":
+      document.documentElement.style.setProperty('--offbar-background-color', 'rgb(80, 30, 136)');
+      document.documentElement.style.setProperty('--canvas-background-color', 'rgb(255,245,245)');
+      document.documentElement.style.setProperty('--hamburger-color', 'rgb(144,149,225)');
+      circleColor = {
+        r1: [149,195],
+        g1: [0,111],
+        b1: [255,255],
+        r2: [242,228],
+        g2: [224,191],
+        b2: [255,255]
+      }
+      break;
   }
 
   setup();
