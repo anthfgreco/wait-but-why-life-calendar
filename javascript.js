@@ -245,6 +245,19 @@ document.getElementById("theme-selector").addEventListener("change", function() 
         b2: [0,0]
       }
       break;
+      case "Fireplace":
+      document.documentElement.style.setProperty('--offbar-background-color', 'rgb(130,20,20)');
+      document.documentElement.style.setProperty('--canvas-background-color', 'rgb(255,100,61)');
+      document.documentElement.style.setProperty('--hamburger-color', 'rgb(50, 0, 0)');
+      circleColor = {
+        r1: [210,255],
+        g1: [210,255],
+        b1: [0,70],
+        r2: [225,255],
+        g2: [123,143],
+        b2: [40,70]
+      }
+      break;
   }
 
   setup();

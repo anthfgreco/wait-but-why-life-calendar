@@ -32,8 +32,13 @@ html, body {
    transition: 0.20s;
  }
 
+fieldset {
+  margin-top: 25px;
+}
+
 #expectedAge {
   width: 50px;
+  margin-top: 10px;
 }
 
 .uk-offcanvas-bar {
@@ -55,3 +60,5 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance:textfield;
 }
+
+
