@@ -94,7 +94,7 @@ function setup() {
   var x = diameter/2 + margin;
   var y = diameter/2 + margin;
   
-  var j = circlesLived;
+  var j = int(circlesLived);
 
   for (let i = 0; i < numCircles; i++) {
     // Circles that you've already lived
@@ -102,6 +102,7 @@ function setup() {
       var r = map(i, 0, circlesLived, circleColor.r1[0], circleColor.r1[1]);
       var g = map(i, 0, circlesLived, circleColor.g1[0], circleColor.g1[1]);
       var b = map(i, 0, circlesLived, circleColor.b1[0], circleColor.b1[1]);
+      
     // Circles that you have yet to live
     }
     else {
@@ -115,15 +116,23 @@ function setup() {
     strokeWeight(0);
     circle(x, y, diameter);
 
+    // Draw arc to show fractional circle
+    if (j == 0) {
+      var c = color(circleColor.r1[1], circleColor.g1[1], circleColor.b1[1]);
+      fill(c);
+      fractional = circlesLived % 1;
+      arc(x, y, diameter, diameter, 0, (fractional) * (2*PI));
+    }
+
     x += diameter + margin;
 
     if (x > windowWidth*0.95 - diameter/2) {
       x = diameter/2 + margin; //default
       y += diameter + margin;
     }
+
     j--;
   }
-  //arc(155, 155, diameter, diameter, 0, 0.5 * (2 *PI));
 }
 
 function windowResized() {
