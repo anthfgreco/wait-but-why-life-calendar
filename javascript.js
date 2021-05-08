@@ -49,149 +49,12 @@ function birthdayToNowDifference(date, dateMultiplier) {
   return difference;
 }
 
-/**************************************************************************************************************
-***  Main Program
-***************************************************************************************************************/
-
-// Global variables for main program and listeners
-var expectedAge = 80;
-var dateMultiplier = 1; // 1 for years, 12 for months, 52 for weeks
-var numCircles = expectedAge * dateMultiplier;  // Number of circles to be displayed on canvas
-var margin = 1; // Controls space between circles
-var sizeMultiplier = 0.90;  // Controls size of canvas
-var circlesLived = 0;
-var birthday = dayjs();  // Set default to today's date
-
-// Object for coloring circles
-// (r1, g1, b1) is gradient for filled circles
-// (r2, g2, b2) is gradient for unfilled circles
-var circleColor = {
-  r1: [0,70],
-  g1: [0,70],
-  b1: [80,255],
-  r2: [180,220],
-  g2: [180,220],
-  b2: [200,255]
-}
-
-function getDiameter() {
-  circle_div = document.getElementById("circle-div");
-  var divWidth = circle_div.offsetWidth;
-  var divHeight = circle_div.offsetHeight;
-  return sizeMultiplier * (Math.floor(Math.sqrt((divWidth * divHeight) / numCircles)));
-}
-
-function setup() {
-  // Set up canvas
-  var canvas = createCanvas(windowWidth*0.95, windowHeight*0.9);
-  canvas.id("circle-div");
-  var canvasX = (windowWidth - width) / 2;
-  var canvasY = 20 + (windowHeight - height) / 2;
-  canvas.position(canvasX, canvasY);
-  background(getComputedStyle(document.documentElement).getPropertyValue('--canvas-background-color'));
-
-  var diameter = getDiameter() - margin;
-  var x = diameter/2 + margin;
-  var y = diameter/2 + margin;
-  
-  var j = int(circlesLived);
-
-  for (let i = 0; i < numCircles; i++) {
-    // Circles that you've already lived
-    if (j > 0) {
-      var r = map(i, 0, circlesLived, circleColor.r1[0], circleColor.r1[1]);
-      var g = map(i, 0, circlesLived, circleColor.g1[0], circleColor.g1[1]);
-      var b = map(i, 0, circlesLived, circleColor.b1[0], circleColor.b1[1]);
-      
-    // Circles that you have yet to live
-    }
-    else {
-      var r = map(i, circlesLived, numCircles, circleColor.r2[0], circleColor.r2[1]);
-      var g = map(i, circlesLived, numCircles, circleColor.g2[0], circleColor.g2[1]);
-      var b = map(i, circlesLived, numCircles, circleColor.b2[0], circleColor.b2[1]);
-    }
-
-    var c = color(r, g, b);
-    fill(c);
-    strokeWeight(0);
-    circle(x, y, diameter);
-
-    // Draw arc to show fractional circle
-    if (j == 0) {
-      var c = color(circleColor.r1[1], circleColor.g1[1], circleColor.b1[1]);
-      fill(c);
-      fractional = circlesLived % 1;
-      arc(x, y, diameter, diameter, 0, (fractional) * (2*PI));
-    }
-
-    x += diameter + margin;
-
-    if (x > windowWidth*0.95 - diameter/2) {
-      x = diameter/2 + margin; //default
-      y += diameter + margin;
-    }
-
-    j--;
-  }
-}
-
-function windowResized() {
-  setup();
-}
-
-/**************************************************************************************************************
-***  Listeners  ***********************************************************************************************
-***************************************************************************************************************/
-
-// Initializes date picker to current date
-document.getElementById("bdayPicker").valueAsDate = new Date();
-
-// Bday picker listener
-document.getElementById("bdayPicker").addEventListener("change", function() {
-  birthday = this.value;  //ex. 2000-11-13
-  // Update circles that you've already lived
-  circlesLived = birthdayToNowDifference(birthday, dateMultiplier);
-  setup();
-});
-
-// Expected age listener
-document.getElementById("expectedAge").addEventListener("keyup", function() {
-  var input = this.value;
-  expectedAge = input;
-  numCircles = expectedAge * dateMultiplier;
-  setup();
-});
-
-// Radio buttons listener
-document.getElementById("radio-buttons-div").addEventListener("change", function() {
-  var input = document.querySelector('input[name="date-format"]:checked').value;
-
-  switch (input) {
-    case "years":
-      dateMultiplier = 1;
-      sizeMultiplier = 0.90;
-      break;
-    case "months":
-      dateMultiplier = 12;
-      sizeMultiplier = 0.95;
-      break;
-    case "weeks":
-      dateMultiplier = 52;
-      sizeMultiplier = 0.98;
-      break;
-  }
-
-  // Update circles
-  circlesLived = birthdayToNowDifference(birthday, dateMultiplier);
-  numCircles = expectedAge * dateMultiplier;
-  setup();
-});
-
-// Theme selector listener
-document.getElementById("theme-selector").addEventListener("change", function() {
-  var input = document.getElementById("theme-selector").value;
-
-  switch (input) {
+/**
+ * Changes theme of site
+ * @param {string} theme 
+ */
+function changeTheme(theme) {
+  switch (theme) {
     case "Sky Blue":
       document.documentElement.style.setProperty('--offbar-background-color', 'rgb(37, 37, 125)');
       document.documentElement.style.setProperty('--canvas-background-color', 'rgb(247, 247, 247)');
@@ -271,10 +134,188 @@ document.getElementById("theme-selector").addEventListener("change", function() 
       }
       break;
   }
+}
 
+/**************************************************************************************************************
+***  Main Program
+***************************************************************************************************************/
+
+// Load browser local storage
+var localStorage = window.localStorage;
+//localStorage.clear();
+
+// Global variables for main program and listeners
+var expectedAge     = Number(localStorage.getItem("expectedAge")   ) || 80;
+var dateMultiplier  = Number(localStorage.getItem("dateMultiplier")) || 1;          // 1 for years, 12 for months, 52 for weeks
+var numCircles      = expectedAge * dateMultiplier;                                 // Number of circles to be displayed on canvas
+var margin          = Number(localStorage.getItem("margin")        ) || 1;          // Controls space between circles
+var sizeMultiplier  = Number(localStorage.getItem("sizeMultiplier")) || 0.90;       // Controls size of canvas
+var birthday        = localStorage.getItem("birthday")               || dayjs();    // Set default to today's date
+var circlesLived    = Number(localStorage.getItem("circlesLived")  ) || birthdayToNowDifference(birthday, dateMultiplier);;
+var theme           = localStorage.getItem("theme")                  || "Sky Blue"
+
+// Object for coloring circles
+// (r1, g1, b1) is gradient for filled circles
+// (r2, g2, b2) is gradient for unfilled circles
+var circleColor = {
+  r1: [0,70],
+  g1: [0,70],
+  b1: [80,255],
+  r2: [180,220],
+  g2: [180,220],
+  b2: [200,255]
+}
+
+function getDiameter() {
+  circle_div = document.getElementById("circle-div");
+  var divWidth = circle_div.offsetWidth;
+  var divHeight = circle_div.offsetHeight;
+  return sizeMultiplier * (Math.floor(Math.sqrt((divWidth * divHeight) / numCircles)));
+}
+
+function setup() {
+  changeTheme(theme);
+  
+  // Set up canvas
+  var canvas = createCanvas(windowWidth*0.95, windowHeight*0.9);
+  canvas.id("circle-div");
+  var canvasX = (windowWidth - width) / 2;
+  var canvasY = 20 + (windowHeight - height) / 2;
+  canvas.position(canvasX, canvasY);
+  background(getComputedStyle(document.documentElement).getPropertyValue('--canvas-background-color'));
+
+  var diameter = getDiameter() - margin;
+  var x = diameter/2 + margin;
+  var y = diameter/2 + margin;
+  
+  var j = int(circlesLived);
+
+  for (let i = 0; i < numCircles; i++) {
+    // Circles that you've already lived
+    if (j > 0) {
+      var r = map(i, 0, circlesLived, circleColor.r1[0], circleColor.r1[1]);
+      var g = map(i, 0, circlesLived, circleColor.g1[0], circleColor.g1[1]);
+      var b = map(i, 0, circlesLived, circleColor.b1[0], circleColor.b1[1]);
+      
+    // Circles that you have yet to live
+    }
+    else {
+      var r = map(i, circlesLived, numCircles, circleColor.r2[0], circleColor.r2[1]);
+      var g = map(i, circlesLived, numCircles, circleColor.g2[0], circleColor.g2[1]);
+      var b = map(i, circlesLived, numCircles, circleColor.b2[0], circleColor.b2[1]);
+    }
+    
+    // Draw circle
+    var c = color(r, g, b);
+    fill(c);
+    strokeWeight(0);
+    circle(x, y, diameter);
+
+    // Draw arc to show fractional circle
+    if (j == 0) {
+      var c = color(circleColor.r1[1], circleColor.g1[1], circleColor.b1[1]);
+      fill(c);
+      fractional = circlesLived % 1;
+      arc(x, y, diameter, diameter, 0, (fractional) * (2*PI));
+    }
+
+    x += diameter + margin;
+
+    if (x > windowWidth*0.95 - diameter/2) {
+      x = diameter/2 + margin; //default
+      y += diameter + margin;
+    }
+
+    j--;
+  }
+}
+
+function windowResized() {
+  setup();
+}
+
+/**************************************************************************************************************
+***  Initializers/Listeners  ***********************************************************************************************
+***************************************************************************************************************/
+
+// Initialize date picker to current date
+document.getElementById("bdayPicker").valueAsDate = new Date(birthday);
+
+// Initialize expected age
+document.getElementById("expectedAge").value = expectedAge;
+
+// Initialize radio buttons
+switch (dateMultiplier) {
+  case 1:
+    document.getElementById("years").checked = true;
+    break;
+  case 12:
+    document.getElementById("months").checked = true;
+    break;
+  case 52:
+    document.getElementById("weeks").checked = true;
+    break;
+}
+
+// Initialize theme selector
+document.getElementById('theme-selector').value = theme;
+
+// Bday picker listener
+document.getElementById("bdayPicker").addEventListener("change", function() {
+  birthday = this.value;  //ex. "2000-11-13"
+  localStorage.setItem("birthday", birthday);
+  circlesLived = birthdayToNowDifference(birthday, dateMultiplier);
+  setup();
+});
+
+// Expected age listener
+document.getElementById("expectedAge").addEventListener("keyup", function() {
+  var input = this.value;
+  expectedAge = input;    // Global variable
+  localStorage.setItem("expectedAge", expectedAge);
+  numCircles = expectedAge * dateMultiplier;
+  setup();
+});
+
+// Radio buttons listener
+document.getElementById("radio-buttons-div").addEventListener("change", function() {
+  var input = document.querySelector('input[name="date-format"]:checked').value;
+
+  switch (input) {
+    case "years":
+      dateMultiplier = 1;
+      sizeMultiplier = 0.90;
+      break;
+    case "months":
+      dateMultiplier = 12;
+      sizeMultiplier = 0.95;
+      break;
+    case "weeks":
+      dateMultiplier = 52;
+      sizeMultiplier = 0.98;
+      break;
+  }
+
+  localStorage.setItem('dateMultiplier', dateMultiplier);
+  localStorage.setItem('sizeMultiplier', sizeMultiplier);
+
+  // Update circles
+  circlesLived = birthdayToNowDifference(birthday, dateMultiplier);
+  numCircles = expectedAge * dateMultiplier;
+  setup();
+});
+
+// Theme selector listener
+document.getElementById("theme-selector").addEventListener("change", function() {
+  var input = document.getElementById("theme-selector").value;
+  theme = input;
+  localStorage.setItem("theme", theme);
+  changeTheme(theme);
   setup();
 });
 
 /**************************************************************************************************************
 ***************************************************************************************************************
 ***************************************************************************************************************/
+
+console.log(localStorage);
