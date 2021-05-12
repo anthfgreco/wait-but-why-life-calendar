@@ -1,11 +1,17 @@
 {
    "manifest_version": 2,
    "name": "Wait But Why Life Calendar",
-   "version": "1.0",
+   "version": "1.01",
    "chrome_url_overrides" : {
      "newtab": "index.html"
    },
    "permissions": [
       "storage"
-    ]
+    ],
+    "icons": {
+      "16": "pictures\\icon16.png",
+      "32": "pictures\\icon32.png",
+      "48": "pictures\\icon48.png",
+      "128": "pictures\\icon128.png"
+    }
 }
