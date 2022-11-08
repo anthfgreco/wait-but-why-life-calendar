@@ -256,8 +256,8 @@ document.getElementById("expectedAge").addEventListener("keyup", function() {
 // Radio buttons listener
 document.getElementById("radio-buttons-div").addEventListener("change", function() {
   let newTimePeriod = document.querySelector('input[name="date-format"]:checked').value;
+  timePeriodSelected = newTimePeriod;
   dateMultiplier = timePeriod[newTimePeriod];
-
   localStorage.setItem('timePeriodSelected', newTimePeriod);
 
   // Update circles
