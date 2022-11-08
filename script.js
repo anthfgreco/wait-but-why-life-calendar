@@ -117,13 +117,7 @@ var circlesLived        = birthdayToNowDifference(birthday);
 
 // Algorithm to get the maximum size of n squares that fit into a rectangle with a given width and height
 // URL (version: 2017-11-25): https://math.stackexchange.com/q/2536926
-function calculateDiameterOfCircle() {
-  let canvas = document.getElementById("canvas");
-  let [divWidth, divHeight] = [canvas.offsetWidth, canvas.offsetHeight];
-  //return timePeriod[timePeriodSelected].sizeMultiplier * (Math.floor(Math.sqrt((divWidth * divHeight) / numCircles)));
-  let n = numCircles;
-  let x = divWidth;
-  let y = divHeight;
+function calculateDiameterOfCircle(n, x, y) {
   var sx, sy;
   let px = Math.ceil(Math.sqrt(n*x/y))
   if (Math.floor(px*y/x) * px < n) {
@@ -167,7 +161,7 @@ function setup() {
   var canvas = createCanvas(windowWidth, windowHeight);
   canvas.id("canvas");
 
-  var diameter = calculateDiameterOfCircle() - margin;
+  var diameter = calculateDiameterOfCircle(numCircles, windowWidth, windowHeight) - margin;
   var x = diameter/2 + margin;
   var y = diameter/2 + margin;
   

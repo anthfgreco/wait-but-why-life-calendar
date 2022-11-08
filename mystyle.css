@@ -33,22 +33,17 @@ input[type=number] {
     -moz-appearance:textfield;
 }
 
-#hamburger-icon {   
-  padding: 4px;
-  margin: 8px;
+#off-canvas-button {  
+  width: 20px;
+  margin: 2px;
   position: absolute;
- }
-
-.hamburger-line {
-   width: 27px;
-   height: 3px;
-   background-color: var(--hamburger-color);
-   margin: 6px 0;
+  top: 50%;
+  opacity: 0.2;
  }
   
-#hamburger-icon:hover {
-   opacity: 0.4;
-   transition: 0.20s;
+#off-canvas-button:hover {
+   opacity: 0.8;
+   transition: 0.15s;
  }
 
 fieldset {
