@@ -119,7 +119,7 @@ var circlesLived        = birthdayToNowDifference(birthday);
 // Algorithm to get the maximum size of n squares that fit into a rectangle with a given width and height
 // URL (version: 2017-11-25): https://math.stackexchange.com/q/2536926
 function calculateDiameterOfCircle(n, x, y) {
-  var sx, sy;
+  let sx, sy;
   let px = Math.ceil(Math.sqrt(n*x/y))
   if (Math.floor(px*y/x) * px < n) {
     sx = y / Math.ceil(px * y / x);
@@ -188,7 +188,7 @@ function setup() {
   var canvas = createCanvas(windowWidth, windowHeight);
   canvas.id("canvas");
 
-  var diameter = calculateDiameterOfCircle(numCircles, windowWidth, windowHeight) - margin;
+  var diameter = calculateDiameterOfCircle(numCircles, windowWidth-5, windowHeight-5) - margin;
   var x = diameter/2 + margin;
   var y = diameter/2 + margin;
   
@@ -266,6 +266,11 @@ document.getElementById("bdayPicker").addEventListener("change", function() {
 // Expected age listener
 document.getElementById("expectedAge").addEventListener("keyup", function() {
   var input = this.value;
+  // Stops app from crashing when expected age is too high
+  if (input > 999) {
+    input = 999;
+    document.getElementById("expectedAge").value = input;
+  }
   expectedAge = input;    // Global variable
   localStorage.setItem("expectedAge", expectedAge);
   numCircles = expectedAge * dateMultiplier;
