@@ -1,7 +1,6 @@
 :root {
   --offbar-background-color: rgb(37, 37, 125);
   --canvas-background-color: rgb(247, 247, 247);
-  --hamburger-color: rgb(0, 0, 0);
 }
 
 html, body {
@@ -34,10 +33,12 @@ input[type=number] {
 }
 
 #off-canvas-button {  
-  width: 20px;
+  width: 50px;
   margin: 2px;
+  padding: 30px 30px 30px 0;
   position: absolute;
   top: 50%;
+  transform: translateY(-50%);
   opacity: 0.2;
  }
   

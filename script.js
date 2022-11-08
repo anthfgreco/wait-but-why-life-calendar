@@ -9,7 +9,6 @@ let themes = {
   'Sky Blue': {
     '--offbar-background-color': 'rgb(37, 37, 125)',
     '--canvas-background-color': 'rgb(247, 247, 247)',
-    '--hamburger-color': 'rgb(0, 0, 0)',
     circleColor: {
       r1: [0,70],
       g1: [0,70],
@@ -22,7 +21,6 @@ let themes = {
   'Silver': {
     '--offbar-background-color': 'rgb(50, 50, 50)',
     '--canvas-background-color': 'rgb(247, 247, 247)',
-    '--hamburger-color': 'rgb(0, 0, 0)',
     circleColor: {
       r1: [0,70],
       g1: [0,70],
@@ -35,7 +33,6 @@ let themes = {
   'Mine Shaft': {
     '--offbar-background-color': 'rgb(20, 20, 20)',
     '--canvas-background-color': 'rgb(60, 60, 60)',
-    '--hamburger-color': 'rgb(230, 230, 230)',
     circleColor: {
       r1: [255,200],
       g1: [255,200],
@@ -48,7 +45,6 @@ let themes = {
   'Acid': {
     '--offbar-background-color': 'rgb(0, 0, 0)',
     '--canvas-background-color': 'rgb(0, 0, 0)',
-    '--hamburger-color': 'rgb(137,255,0)',
     circleColor: {
       r1: [137,150],
       g1: [200,255],
@@ -61,7 +57,6 @@ let themes = {
   'Fireplace': {
     '--offbar-background-color': 'rgb(130,20,20)',
     '--canvas-background-color': 'rgb(255,100,61)',
-    '--hamburger-color': 'rgb(50, 0, 0)',
     circleColor: {
       r1: [210,255],
       g1: [210,255],
@@ -74,7 +69,6 @@ let themes = {
   'Sweet Purple': {
     '--offbar-background-color': 'rgb(80, 30, 136)',
     '--canvas-background-color': 'rgb(255,245,245)',
-    '--hamburger-color': 'rgb(144,149,225)',
     circleColor: {
       r1: [149,195],
       g1: [0,111],
@@ -150,7 +144,6 @@ function birthdayToNowDifference(date) {
 function changeTheme(newTheme) {
   document.documentElement.style.setProperty('--offbar-background-color', themes[newTheme]['--offbar-background-color']);
   document.documentElement.style.setProperty('--canvas-background-color', themes[newTheme]['--canvas-background-color']);
-  document.documentElement.style.setProperty('--hamburger-color',         themes[newTheme]['--hamburger-color']);
   circleColor = themes[newTheme]['circleColor'];
 }
 
