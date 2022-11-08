@@ -118,12 +118,12 @@ var circlesLived        = birthdayToNowDifference(birthday);
 // Algorithm to get the maximum size of n squares that fit into a rectangle with a given width and height
 // URL (version: 2017-11-25): https://math.stackexchange.com/q/2536926
 function calculateDiameterOfCircle() {
-  let circle_div = document.getElementById("circle-div");
-  let [divWidth, divHeight] = [circle_div.offsetWidth, circle_div.offsetHeight];
+  let canvas = document.getElementById("canvas");
+  let [divWidth, divHeight] = [canvas.offsetWidth, canvas.offsetHeight];
   //return timePeriod[timePeriodSelected].sizeMultiplier * (Math.floor(Math.sqrt((divWidth * divHeight) / numCircles)));
-  let n = numCircles
-  let x = divWidth-5
-  let y = divHeight-5
+  let n = numCircles;
+  let x = divWidth;
+  let y = divHeight;
   var sx, sy;
   let px = Math.ceil(Math.sqrt(n*x/y))
   if (Math.floor(px*y/x) * px < n) {
@@ -164,11 +164,8 @@ function setup() {
   changeTheme(theme);
   
   // Set up canvas
-  var canvas = createCanvas(windowWidth*0.95, windowHeight*0.9);
-  canvas.id("circle-div");
-  var canvasX = (windowWidth - width) / 2;
-  var canvasY = 20 + (windowHeight - height) / 2;
-  canvas.position(canvasX, canvasY);
+  var canvas = createCanvas(windowWidth, windowHeight);
+  canvas.id("canvas");
 
   var diameter = calculateDiameterOfCircle() - margin;
   var x = diameter/2 + margin;
@@ -207,8 +204,9 @@ function setup() {
 
     x += diameter + margin;
 
-    if (x > windowWidth*0.95 - diameter/2) {
-      x = diameter/2 + margin; //default
+    // If the next circle will go off the screen, move down a row
+    if (x > windowWidth - diameter/2) {
+      x = diameter/2 + margin;
       y += diameter + margin;
     }
 
