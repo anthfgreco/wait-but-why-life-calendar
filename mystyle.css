@@ -67,6 +67,4 @@ p {
 
 #footer {
   display: flex;
-  position: absolute;
-  bottom: 10px;
 }
