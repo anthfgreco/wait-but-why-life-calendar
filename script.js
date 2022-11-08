@@ -97,11 +97,18 @@ var localStorage = window.localStorage;
 //localStorage.clear();
 
 // Global variables for main program and listeners
-// localStorage will eventually be my "state" in React
 var expectedAge         = Number(localStorage.getItem("expectedAge")   ) || 80;
 var timePeriodSelected  = localStorage.getItem("timePeriodSelected") || "years";
 var birthday            = localStorage.getItem("birthday") || dayjs();
 var theme               = localStorage.getItem("theme")  || "Sky Blue";
+
+// Custom theme storage
+var offbarBackgroundColor = localStorage.getItem("offbarBackgroundColor") || '#111111';
+var canvasBackgroundColor = localStorage.getItem("canvasBackgroundColor") || '#f7f7f7';
+var filledGradient1       = localStorage.getItem("filledGradient1")       || '#000050';
+var filledGradient2       = localStorage.getItem("filledGradient2")       || '#4646ff';
+var unfilledGradient1     = localStorage.getItem("unfilledGradient1")     || '#b4b4c8';
+var unfilledGradient2     = localStorage.getItem("unfilledGradient2")     || '#dcdcff';
 
 var dateMultiplier      = timePeriod[timePeriodSelected];
 var numCircles          = expectedAge * dateMultiplier; // Number of circles to be displayed on canvas
@@ -141,15 +148,42 @@ function birthdayToNowDifference(date) {
   return now.diff(date, timePeriodSelected.slice(0, -1), true); // remove 's' from end of string
 }
 
+function hexToRgb(hex) {
+  hex = hex.replace('#', '');
+  var bigint = parseInt(hex, 16);
+  var r = (bigint >> 16) & 255;
+  var g = (bigint >> 8) & 255;
+  var b = bigint & 255;
+  return {r: r, g: g, b: b};
+}
+
 function changeTheme(newTheme) {
-  document.documentElement.style.setProperty('--offbar-background-color', themes[newTheme]['--offbar-background-color']);
-  document.documentElement.style.setProperty('--canvas-background-color', themes[newTheme]['--canvas-background-color']);
-  circleColor = themes[newTheme]['circleColor'];
+  if (newTheme == "Custom Theme") {
+    document.documentElement.style.setProperty('--offbar-background-color', offbarBackgroundColor);
+    document.documentElement.style.setProperty('--canvas-background-color', canvasBackgroundColor);
+    let rgb1 = hexToRgb(filledGradient1);
+    let rgb2 = hexToRgb(filledGradient2);
+    let rgb3 = hexToRgb(unfilledGradient1);
+    let rgb4 = hexToRgb(unfilledGradient2);
+    circleColor = {
+      r1: [rgb1.r,rgb2.r],
+      g1: [rgb1.g,rgb2.g],
+      b1: [rgb1.b,rgb2.b],
+      r2: [rgb3.r,rgb4.r],
+      g2: [rgb3.g,rgb4.g],
+      b2: [rgb3.b,rgb4.b]
+    }
+  }
+  else {
+    document.documentElement.style.setProperty('--offbar-background-color', themes[newTheme]['--offbar-background-color']);
+    document.documentElement.style.setProperty('--canvas-background-color', themes[newTheme]['--canvas-background-color']);
+    circleColor = themes[newTheme]['circleColor'];
+  }
 }
 
 function setup() {
   changeTheme(theme);
-  
+
   // Set up canvas
   var canvas = createCanvas(windowWidth, windowHeight);
   canvas.id("canvas");
@@ -255,6 +289,31 @@ document.getElementById("radio-buttons-div").addEventListener("change", function
 document.getElementById("theme-selector").addEventListener("change", function() {
   theme = document.getElementById("theme-selector").value;
   localStorage.setItem("theme", theme);
+  setup();
+});
+
+// Initialize custom theme setting
+document.getElementById("offbar-background-color").value = offbarBackgroundColor;
+document.getElementById("canvas-background-color").value = canvasBackgroundColor;
+document.getElementById("filled-gradient-1").value = filledGradient1;
+document.getElementById("filled-gradient-2").value = filledGradient2;
+document.getElementById("unfilled-gradient-1").value = unfilledGradient1;
+document.getElementById("unfilled-gradient-2").value = unfilledGradient2;
+
+// Custom theme settings listener
+document.getElementById("custom-theme-settings").addEventListener("change", function() {
+  offbarBackgroundColor = document.getElementById("offbar-background-color").value;
+  canvasBackgroundColor = document.getElementById("canvas-background-color").value;
+  filledGradient1       = document.getElementById("filled-gradient-1").value;
+  filledGradient2       = document.getElementById("filled-gradient-2").value;
+  unfilledGradient1     = document.getElementById("unfilled-gradient-1").value;
+  unfilledGradient2     = document.getElementById("unfilled-gradient-2").value;
+  localStorage.setItem("offbarBackgroundColor", offbarBackgroundColor);
+  localStorage.setItem("canvasBackgroundColor", canvasBackgroundColor);
+  localStorage.setItem("filledGradient1", filledGradient1);
+  localStorage.setItem("filledGradient2", filledGradient2);
+  localStorage.setItem("unfilledGradient1", unfilledGradient1);
+  localStorage.setItem("unfilledGradient2", unfilledGradient2);
   setup();
 });
 
