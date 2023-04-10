@@ -3,8 +3,8 @@
 <html>
   <head>
     <title>New Tab</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="favicon.png" />
 
     <!-- UIkit CSS -->
     <link rel="stylesheet" href="lib\uikit.min.css" />
@@ -15,77 +15,104 @@
     <script src="lib\p5.min.js"></script>
     <!-- dayjs for easier date manipulation -->
     <script src="lib\dayjs.min.js"></script>
-    
-    <link rel="stylesheet" href="mystyle.css">
+
+    <link rel="stylesheet" href="mystyle.css" />
   </head>
 
   <body id="body">
     <!-- Button toggling the off-canvas -->
-    <img id="off-canvas-button" src="right-arrow.png" uk-toggle="target: #off-canvas">
-    
+    <img
+      id="off-canvas-button"
+      src="right-arrow.png"
+      uk-toggle="target: #off-canvas"
+    />
+
     <!-- Anchor toggling the off-canvas -->
     <a href="#off-canvas" uk-toggle></a>
 
     <!-- Off-canvas -->
     <div id="off-canvas" uk-offcanvas="mode: slide">
-        <div class="uk-offcanvas-bar" id="uk-offcanvas-bar">
-          <fieldset data-uk-margin>
-              <legend>Settings</legend>
+      <div class="uk-offcanvas-bar" id="uk-offcanvas-bar">
+        <fieldset data-uk-margin>
+          <legend>Settings</legend>
 
-              <p>Select your birthday:</p>
-              <input type="date" id="bdayPicker" class="uk-textarea"/>
+          <p>Select your birthday:</p>
+          <input type="date" id="bdayInput" class="uk-textarea" />
 
-              <div id="expected-age-div">
-                <p>Expected age:</p>
-                <input type="number" id="expectedAge" class="uk-textarea">
-              </div>
-
-              <div id="radio-buttons-div">
-                <input type="radio" id="weeks" name="date-format" value="weeks" class="uk-radio">
-                <label for="weeks">Weeks</label><br>
-                <input type="radio" id="months" name="date-format" value="months" class="uk-radio">
-                <label for="months">Months</label><br>
-                <input type="radio" id="years" name="date-format" value="years" class="uk-radio">
-                <label for="years">Years</label>
-              </div>
-
-              <p>Theme:</p>
-              <select class="uk-select" id="theme-selector">
-                <option>Sky Blue</option>
-                <option>Silver</option>
-                <option>Mine Shaft</option>
-                <option>Acid</option>
-                <option>Fireplace</option>
-                <option>Sweet Purple</option>
-                <option disabled>-----</option>
-                <option>Custom Theme</option>
-              </select>
-          </fieldset>
-
-          <fieldset id="custom-theme-settings" data-uk-margin>
-            <legend>Custom Theme Settings</legend>
-            <p>Offbar background color:</p>
-            <input type="color" id="offbar-background-color">
-            <p>Canvas background color:</p>
-            <input type="color" id="canvas-background-color">
-            <p>Filled gradient:</p>
-            <input type="color" id="filled-gradient-1">
-            <input type="color" id="filled-gradient-2">
-            <p>Unfilled gradient:</p>
-            <input type="color" id="unfilled-gradient-1">
-            <input type="color" id="unfilled-gradient-2">
-          </fieldset>
-
-          <button class="uk-offcanvas-close" type="button" uk-close></button>
-
-          <div id="footer">
-            <a href="https://github.com/anthfgreco/wait-but-why-life-calendar" uk-icon="icon: git-branch"></a>
-            <a href="https://github.com/anthfgreco/wait-but-why-life-calendar" class="uk-button uk-button-text uk-button-small">Source</a>
+          <div id="expected-age-div">
+            <p>Expected age:</p>
+            <input type="number" id="expectedAgeInput" class="uk-textarea" />
           </div>
 
-        </div>
-    </div>
+          <div id="timePeriodInput">
+            <input
+              type="radio"
+              id="weeks"
+              name="date-format"
+              value="weeks"
+              class="uk-radio"
+            />
+            <label for="weeks">Weeks</label><br />
+            <input
+              type="radio"
+              id="months"
+              name="date-format"
+              value="months"
+              class="uk-radio"
+            />
+            <label for="months">Months</label><br />
+            <input
+              type="radio"
+              id="years"
+              name="date-format"
+              value="years"
+              class="uk-radio"
+            />
+            <label for="years">Years</label>
+          </div>
 
+          <p>Theme:</p>
+          <select class="uk-select" id="themeSelectInput">
+            <option>Sky Blue</option>
+            <option>Silver</option>
+            <option>Mine Shaft</option>
+            <option>Acid</option>
+            <option>Fireplace</option>
+            <option>Sweet Purple</option>
+            <option disabled>-----</option>
+            <option>Custom Theme</option>
+          </select>
+        </fieldset>
+
+        <fieldset id="customThemeFieldset" data-uk-margin>
+          <legend>Custom Theme Settings</legend>
+          <p>Offbar background color:</p>
+          <input type="color" id="offbarBackgroundColorInput" />
+          <p>Canvas background color:</p>
+          <input type="color" id="canvasBackgroundColorInput" />
+          <p>Filled gradient:</p>
+          <input type="color" id="filledGradient1Input" />
+          <input type="color" id="filledGradient2Input" />
+          <p>Unfilled gradient:</p>
+          <input type="color" id="unfilledGradient1Input" />
+          <input type="color" id="unfilledGradient2Input" />
+        </fieldset>
+
+        <button class="uk-offcanvas-close" type="button" uk-close></button>
+
+        <div id="footer">
+          <a
+            href="https://github.com/anthfgreco/wait-but-why-life-calendar"
+            uk-icon="icon: git-branch"
+          ></a>
+          <a
+            href="https://github.com/anthfgreco/wait-but-why-life-calendar"
+            class="uk-button uk-button-text uk-button-small"
+            >Source</a
+          >
+        </div>
+      </div>
+    </div>
   </body>
 
   <script type="text/javascript" src="script.js"></script>
