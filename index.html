@@ -4,26 +4,34 @@
   <head>
     <title>New Tab</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="icon" type="image/png" href="images/favicon.png" />
 
     <!-- UIkit CSS -->
-    <link rel="stylesheet" href="lib\uikit.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3.16.14/dist/css/uikit.min.css"
+    />
     <!-- UIkit JS -->
-    <script src="lib\uikit.min.js"></script>
-    <script src="lib\uikit-icons.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.14/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.14/dist/js/uikit-icons.min.js"></script>
     <!-- p5.js for canvas drawing -->
-    <script src="lib\p5.min.js"></script>
-    <!-- dayjs for easier date manipulation -->
-    <script src="lib\dayjs.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"
+      integrity="sha512-3RlxD1bW34eFKPwj9gUXEWtdSMC59QqIqHnD8O/NoTwSJhgxRizdcFVQhUMFyTp5RwLTDL0Lbcqtl8b7bFAzog=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- Day.js for easier date manipulation -->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
 
     <link rel="stylesheet" href="mystyle.css" />
   </head>
 
-  <body id="body">
+  <body>
     <!-- Button toggling the off-canvas -->
     <img
       id="off-canvas-button"
-      src="right-arrow.png"
+      src="images/right-arrow.png"
       uk-toggle="target: #off-canvas"
     />
 
