@@ -33,7 +33,7 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-#off-canvas-button {
+#offCanvasOpenButton {
   width: 50px;
   margin: 2px;
   padding: 30px 30px 30px 0;
@@ -43,7 +43,7 @@ input[type="number"] {
   opacity: 0.2;
 }
 
-#off-canvas-button:hover {
+#offCanvasOpenButton:hover {
   opacity: 0.8;
   transition: 0.15s;
 }

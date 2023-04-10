@@ -30,7 +30,7 @@
   <body>
     <!-- Button toggling the off-canvas -->
     <img
-      id="off-canvas-button"
+      id="offCanvasOpenButton"
       src="images/right-arrow.png"
       uk-toggle="target: #off-canvas"
     />
@@ -94,16 +94,21 @@
 
         <fieldset id="customThemeFieldset" data-uk-margin>
           <legend>Custom Theme Settings</legend>
-          <p>Offbar background color:</p>
-          <input type="color" id="offbarBackgroundColorInput" />
-          <p>Canvas background color:</p>
-          <input type="color" id="canvasBackgroundColorInput" />
-          <p>Filled gradient:</p>
-          <input type="color" id="filledGradient1Input" />
-          <input type="color" id="filledGradient2Input" />
-          <p>Unfilled gradient:</p>
-          <input type="color" id="unfilledGradient1Input" />
-          <input type="color" id="unfilledGradient2Input" />
+
+          <p id="customThemeWarning"></p>
+
+          <div id="customThemeSettings">
+            <p>Settings background color:</p>
+            <input type="color" id="offbarBackgroundColorInput" />
+            <p>Canvas background color:</p>
+            <input type="color" id="canvasBackgroundColorInput" />
+            <p>Filled circles gradient:</p>
+            <input type="color" id="filledGradient1Input" />
+            <input type="color" id="filledGradient2Input" />
+            <p>Unfilled circles gradient:</p>
+            <input type="color" id="unfilledGradient1Input" />
+            <input type="color" id="unfilledGradient2Input" />
+          </div>
         </fieldset>
 
         <button class="uk-offcanvas-close" type="button" uk-close></button>

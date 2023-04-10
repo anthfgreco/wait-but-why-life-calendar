@@ -201,6 +201,9 @@ let filledGradient2Input = getElem("filledGradient2Input");
 let unfilledGradient1Input = getElem("unfilledGradient1Input");
 let unfilledGradient2Input = getElem("unfilledGradient2Input");
 
+let customThemeWarning = getElem("customThemeWarning");
+let customThemeSettings = getElem("customThemeSettings");
+
 // Initialize date picker to current date
 bdayInput.valueAsDate = new Date(birthday);
 
@@ -213,6 +216,29 @@ getElem(timePeriodSelected).checked = true;
 // Initialize theme selector
 themeSelectInput.value = theme;
 
+// Initialize custom theme fieldset
+function updateCustomThemeFieldset() {
+  if (theme != "Custom Theme") {
+    customThemeWarning.innerHTML =
+      "Enable Custom Theme to create your own theme!";
+    customThemeSettings.style.display = "none";
+  }
+  if (theme == "Custom Theme") {
+    customThemeWarning.innerHTML = "";
+    customThemeSettings.style.display = "block";
+  }
+}
+
+updateCustomThemeFieldset();
+
+// Initialize custom theme inputs
+offbarBackgroundColorInput.value = offbarBackgroundColor;
+canvasBackgroundColorInput.value = canvasBackgroundColor;
+filledGradient1Input.value = filledGradient1;
+filledGradient2Input.value = filledGradient2;
+unfilledGradient1Input.value = unfilledGradient1;
+unfilledGradient2Input.value = unfilledGradient2;
+
 // Bday picker listener
 bdayInput.addEventListener("change", function () {
   birthday = this.value; //ex. "2000-11-13"
@@ -224,11 +250,14 @@ bdayInput.addEventListener("change", function () {
 // Expected age listener
 expectedAgeInput.addEventListener("keyup", function () {
   let input = this.value;
-  // Stops app from crashing when expected age is too high
-  if (input > 999) {
-    input = 999;
-    expectedAgeInput.value = input;
+
+  // Stop app from crashing when expected age is too high
+  let maxAge = 999;
+  if (input > maxAge) {
+    input = maxAge;
+    expectedAgeInput.value = maxAge;
   }
+
   expectedAge = input;
   localStorage.setItem("expectedAge", expectedAge);
   numCircles = expectedAge * dateMultiplier;
@@ -254,16 +283,11 @@ timePeriodInput.addEventListener("change", function () {
 themeSelectInput.addEventListener("change", function () {
   theme = themeSelectInput.value;
   localStorage.setItem("theme", theme);
+
+  updateCustomThemeFieldset();
+
   setup();
 });
-
-// Initialize custom theme setting
-offbarBackgroundColorInput.value = offbarBackgroundColor;
-canvasBackgroundColorInput.value = canvasBackgroundColor;
-filledGradient1Input.value = filledGradient1;
-filledGradient2Input.value = filledGradient2;
-unfilledGradient1Input.value = unfilledGradient1;
-unfilledGradient2Input.value = unfilledGradient2;
 
 // Custom theme settings listener
 customThemeFieldset.addEventListener("change", function () {
