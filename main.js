@@ -8,7 +8,7 @@ let [
   expectedAge,
   timePeriodSelected,
   birthday,
-  theme,
+  themeName,
   offbarBackgroundColor,
   canvasBackgroundColor,
   filledGradient1,
@@ -20,11 +20,11 @@ let [
 let dateMultiplier = TIME_PERIODS[timePeriodSelected];
 let numCircles = expectedAge * dateMultiplier;
 let margin = 1;
-let numCirclesLived = birthdayToNowDifference(birthday);
+let age = birthdayToNowDifference(birthday);
 
 // Setup is called once when the page loads, when an input is changed, and when the window is resized
 function setup() {
-  changeTheme(theme);
+  changeTheme(themeName);
 
   let canvas = createCanvas(windowWidth, windowHeight);
   canvas.id("canvas");
@@ -35,52 +35,39 @@ function setup() {
   let x = diameter / 2 + margin;
   let y = diameter / 2 + margin;
 
-  let j = int(numCirclesLived);
+  let c1, c2, c3, c4;
+
+  if (themeName == "Custom Theme") {
+    c1 = filledGradient1;
+    c2 = filledGradient2;
+    c3 = unfilledGradient1;
+    c4 = unfilledGradient2;
+  } else {
+    const themeObj = THEMES[themeName];
+
+    c1 = themeObj.filledGradientStart;
+    c2 = themeObj.filledGradientEnd;
+    c3 = themeObj.unfilledGradientStart;
+    c4 = themeObj.unfilledGradientEnd;
+  }
+
+  const filledColorsList = chroma.scale([c1, c2]).colors(age - 1);
+
+  const unfilledColorsList = chroma.scale([c3, c4]).colors(numCircles - age);
+
+  colorList = [...filledColorsList, ...unfilledColorsList];
 
   for (let i = 0; i < numCircles; i++) {
-    let r, g, b;
-    // Circles that you've already lived
-    if (j > 0) {
-      r = map(i, 0, numCirclesLived, circleColor.r1[0], circleColor.r1[1]);
-      g = map(i, 0, numCirclesLived, circleColor.g1[0], circleColor.g1[1]);
-      b = map(i, 0, numCirclesLived, circleColor.b1[0], circleColor.b1[1]);
-
-      // Circles that you have yet to live
-    } else {
-      r = map(
-        i,
-        numCirclesLived,
-        numCircles,
-        circleColor.r2[0],
-        circleColor.r2[1]
-      );
-      g = map(
-        i,
-        numCirclesLived,
-        numCircles,
-        circleColor.g2[0],
-        circleColor.g2[1]
-      );
-      b = map(
-        i,
-        numCirclesLived,
-        numCircles,
-        circleColor.b2[0],
-        circleColor.b2[1]
-      );
-    }
-
-    // Draw circle
-    let c = color(r, g, b);
+    let c = color(colorList[i]);
     fill(c);
     strokeWeight(0);
     circle(x, y, diameter);
 
     // Draw arc to show fractional circle
-    if (j == 0) {
-      let c = color(circleColor.r1[1], circleColor.g1[1], circleColor.b1[1]);
+    if (i == filledColorsList.length) {
+      let c = color(c2);
       fill(c);
-      fractional = numCirclesLived % 1;
+      let fractional = age % 1;
       arc(
         x,
         y,
@@ -98,8 +85,6 @@ function setup() {
       x = diameter / 2 + margin;
       y += diameter + margin;
     }
-
-    j--;
   }
 }
 
@@ -159,24 +144,24 @@ function setDocumentStyle(color1, color2) {
 function changeTheme(newTheme) {
   if (newTheme == "Custom Theme") {
     setDocumentStyle(offbarBackgroundColor, canvasBackgroundColor);
-    let rgb1 = hexToRgb(filledGradient1);
-    let rgb2 = hexToRgb(filledGradient2);
-    let rgb3 = hexToRgb(unfilledGradient1);
-    let rgb4 = hexToRgb(unfilledGradient2);
-    circleColor = {
-      r1: [rgb1.r, rgb2.r],
-      g1: [rgb1.g, rgb2.g],
-      b1: [rgb1.b, rgb2.b],
-      r2: [rgb3.r, rgb4.r],
-      g2: [rgb3.g, rgb4.g],
-      b2: [rgb3.b, rgb4.b],
-    };
+    // let rgb1 = hexToRgb(filledGradient1);
+    // let rgb2 = hexToRgb(filledGradient2);
+    // let rgb3 = hexToRgb(unfilledGradient1);
+    // let rgb4 = hexToRgb(unfilledGradient2);
+    // circleColor = {
+    //   r1: [rgb1.r, rgb2.r],
+    //   g1: [rgb1.g, rgb2.g],
+    //   b1: [rgb1.b, rgb2.b],
+    //   r2: [rgb3.r, rgb4.r],
+    //   g2: [rgb3.g, rgb4.g],
+    //   b2: [rgb3.b, rgb4.b],
+    // };
   } else {
     setDocumentStyle(
       THEMES[newTheme]["--offbar-background-color"],
       THEMES[newTheme]["--canvas-background-color"]
     );
-    circleColor = THEMES[newTheme]["circleColor"];
+    // circleColor = THEMES[newTheme]["circleColor"];
   }
 }
 
@@ -214,16 +199,16 @@ expectedAgeInput.value = expectedAge;
 getElem(timePeriodSelected).checked = true;
 
 // Initialize theme selector
-themeSelectInput.value = theme;
+themeSelectInput.value = themeName;
 
 // Initialize custom theme fieldset
 function updateCustomThemeFieldset() {
-  if (theme != "Custom Theme") {
+  if (themeName != "Custom Theme") {
     customThemeWarning.innerHTML =
       "Enable Custom Theme to create your own theme!";
     customThemeSettings.style.display = "none";
   }
-  if (theme == "Custom Theme") {
+  if (themeName == "Custom Theme") {
     customThemeWarning.innerHTML = "";
     customThemeSettings.style.display = "block";
   }
@@ -243,7 +228,7 @@ unfilledGradient2Input.value = unfilledGradient2;
 bdayInput.addEventListener("change", function () {
   birthday = this.value; //ex. "2000-11-13"
   localStorage.setItem("birthday", birthday);
-  numCirclesLived = birthdayToNowDifference(birthday);
+  age = birthdayToNowDifference(birthday);
   setup();
 });
 
@@ -274,15 +259,15 @@ timePeriodInput.addEventListener("change", function () {
   localStorage.setItem("timePeriodSelected", newTimePeriod);
 
   // Update circles
-  numCirclesLived = birthdayToNowDifference(birthday);
+  age = birthdayToNowDifference(birthday);
   numCircles = expectedAge * dateMultiplier;
   setup();
 });
 
 // Theme selector listener
 themeSelectInput.addEventListener("change", function () {
-  theme = themeSelectInput.value;
-  localStorage.setItem("theme", theme);
+  themeName = themeSelectInput.value;
+  localStorage.setItem("themeName", themeName);
 
   updateCustomThemeFieldset();
 
