@@ -9,10 +9,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Hide scrollbars */
   background-color: var(--canvas-background-color);
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  box-sizing: border-box;
 }
 
 #canvas {
@@ -21,41 +19,9 @@ body {
   padding: 30px;
 }
 
-/* Hides arrows in number input */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Hides arrows in number input for Mozilla browsers*/
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-#offCanvasOpenButton {
-  width: 50px;
-  margin: 2px;
-  padding: 30px 30px 30px 0;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.2;
-}
-
-#offCanvasOpenButton:hover {
-  opacity: 0.8;
-  transition: 0.15s;
-}
-
 fieldset {
   margin-top: 25px;
   font-size: 16px;
-}
-
-#expectedAgeInput {
-  width: 50px;
-  margin-top: 10px;
 }
 
 .uk-offcanvas-bar {
@@ -66,6 +32,44 @@ p {
   margin: 0px;
 }
 
-#footer {
-  display: flex;
+input[type="number"] {
+  width: 75px;
+}
+
+#offCanvasOpenButton {
+  width: 50px;
+  margin: 2px;
+  padding: 30px 30px 30px 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.2;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#offCanvasOpenButton:hover {
+  opacity: 0.8;
+  transition: 0.15s;
+}
+
+#arrowOpenButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transform: scaleY(1.55);
+  font-family: Courier;
+  font-size: 25px;
+  font-weight: bolder;
+  opacity: 0.4;
+  padding: 20px 30px 20px 6px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#arrowOpenButton:hover {
+  opacity: 0.95;
+  transition: 0.15s;
 }

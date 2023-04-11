@@ -36,17 +36,13 @@
 
   <body>
     <!-- Button toggling the off-canvas -->
-    <img
-      id="offCanvasOpenButton"
-      src="images/right-arrow.png"
-      uk-toggle="target: #off-canvas"
-    />
+    <div id="arrowOpenButton" uk-toggle="target: #off-canvas">&gt;</div>
 
     <!-- Anchor toggling the off-canvas -->
     <a href="#off-canvas" uk-toggle></a>
 
     <!-- Off-canvas -->
-    <div id="off-canvas" uk-offcanvas="mode: slide">
+    <div id="off-canvas" uk-offcanvas="mode: slide" uk-scroll>
       <div class="uk-offcanvas-bar" id="uk-offcanvas-bar">
         <fieldset data-uk-margin>
           <legend>Settings</legend>
@@ -54,10 +50,8 @@
           <p>Select your birthday:</p>
           <input type="date" id="bdayInput" class="uk-textarea" />
 
-          <div id="expected-age-div">
-            <p>Expected age:</p>
-            <input type="number" id="expectedAgeInput" class="uk-textarea" />
-          </div>
+          <p>Expected age:</p>
+          <input type="number" id="expectedAgeInput" class="uk-textarea" />
 
           <div id="timePeriodInput">
             <input
@@ -85,7 +79,10 @@
             />
             <label for="years">Years</label>
           </div>
+        </fieldset>
 
+        <fieldset id="visualSettingsFieldset" data-uk-margin>
+          <legend>Visual Settings</legend>
           <p>Theme:</p>
           <select class="uk-select" id="themeSelectInput">
             <option>Sky Blue</option>
@@ -97,6 +94,9 @@
             <option disabled>-----</option>
             <option>Custom Theme</option>
           </select>
+
+          <p>Margin:</p>
+          <input type="number" id="marginInput" class="uk-textarea" />
         </fieldset>
 
         <fieldset id="customThemeFieldset" data-uk-margin>
@@ -118,8 +118,6 @@
           </div>
         </fieldset>
 
-        <button class="uk-offcanvas-close" type="button" uk-close></button>
-
         <div id="footer">
           <a
             href="https://github.com/anthfgreco/wait-but-why-life-calendar"
@@ -131,6 +129,8 @@
             >Source</a
           >
         </div>
+
+        <button class="uk-offcanvas-close" type="button" uk-close></button>
       </div>
     </div>
   </body>

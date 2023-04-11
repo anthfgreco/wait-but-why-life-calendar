@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Wait But Why Life Calendar",
-  "version": "1.02",
+  "version": "1.03",
   "chrome_url_overrides": {
     "newtab": "index.html"
   },

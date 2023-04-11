@@ -61,6 +61,7 @@ const LOCAL_STORAGE_KEYS = [
   "timePeriodSelected",
   "birthday",
   "themeName",
+  "margin",
   "offbarBackgroundColor",
   "canvasBackgroundColor",
   "filledGradient1",
@@ -71,10 +72,11 @@ const LOCAL_STORAGE_KEYS = [
 
 // Default values for each key
 const DEFAULTS = {
-  expectedAge: 80,
+  expectedAge: "80",
   timePeriodSelected: "years",
-  birthday: dayjs(),
+  birthday: dayjs("2000-01-15"),
   themeName: "Sky Blue",
+  margin: "1",
   offbarBackgroundColor: "#111111",
   canvasBackgroundColor: "#f7f7f7",
   filledGradient1: "#000050",

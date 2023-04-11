@@ -1,6 +1,6 @@
 // localStorage.clear();
 
-// Load data from local storage or use default values
+// Load data from local storage, use default values if local storage is empty
 const localStorageValues = LOCAL_STORAGE_KEYS.map(
   (key) => localStorage.getItem(key) || DEFAULTS[key]
 );
@@ -9,6 +9,7 @@ let [
   timePeriodSelected,
   birthday,
   themeName,
+  margin,
   offbarBackgroundColor,
   canvasBackgroundColor,
   filledGradient1,
@@ -19,15 +20,16 @@ let [
 
 let dateMultiplier = TIME_PERIODS[timePeriodSelected];
 let numCircles = expectedAge * dateMultiplier;
-let margin = 1;
 let age = birthdayToNowDifference(birthday);
 
 // Setup is called once when the page loads, when an input is changed, and when the window is resized
 function setup() {
-  changeTheme(themeName);
-
   let canvas = createCanvas(windowWidth, windowHeight);
   canvas.id("canvas");
+
+  changeTheme(themeName);
+
+  margin = parseInt(margin);
 
   let diameter =
     calculateDiameterOfCircle(numCircles, windowWidth - 5, windowHeight - 5) -
@@ -50,6 +52,8 @@ function setup() {
     c3 = themeObj.unfilledGradientStart;
     c4 = themeObj.unfilledGradientEnd;
   }
+
+  arrowOpenButton.style.color = c1;
 
   const filledColorsList = chroma.scale([c1, c2]).colors(age - 1);
 
@@ -118,19 +122,10 @@ function calculateDiameterOfCircle(n, x, y) {
 // Depending on timePeriodSelected, age can be in either years, months, or weeks
 function birthdayToNowDifference(date) {
   let now = dayjs();
-  return now.diff(date, timePeriodSelected.slice(0, -1), true); // remove 's' from end of string
+  return now.diff(date, timePeriodSelected, true);
 }
 
-function hexToRgb(hex) {
-  hex = hex.replace("#", "");
-  let bigint = parseInt(hex, 16);
-  let r = (bigint >> 16) & 255;
-  let g = (bigint >> 8) & 255;
-  let b = bigint & 255;
-  return { r: r, g: g, b: b };
-}
-
-function setDocumentStyle(color1, color2) {
+function setBackgroundColors(color1, color2) {
   document.documentElement.style.setProperty(
     "--offbar-background-color",
     color1
@@ -143,25 +138,12 @@ function setDocumentStyle(color1, color2) {
 
 function changeTheme(newTheme) {
   if (newTheme == "Custom Theme") {
-    setDocumentStyle(offbarBackgroundColor, canvasBackgroundColor);
-    // let rgb1 = hexToRgb(filledGradient1);
-    // let rgb2 = hexToRgb(filledGradient2);
-    // let rgb3 = hexToRgb(unfilledGradient1);
-    // let rgb4 = hexToRgb(unfilledGradient2);
-    // circleColor = {
-    //   r1: [rgb1.r, rgb2.r],
-    //   g1: [rgb1.g, rgb2.g],
-    //   b1: [rgb1.b, rgb2.b],
-    //   r2: [rgb3.r, rgb4.r],
-    //   g2: [rgb3.g, rgb4.g],
-    //   b2: [rgb3.b, rgb4.b],
-    // };
+    setBackgroundColors(offbarBackgroundColor, canvasBackgroundColor);
   } else {
-    setDocumentStyle(
+    setBackgroundColors(
       THEMES[newTheme]["--offbar-background-color"],
       THEMES[newTheme]["--canvas-background-color"]
     );
-    // circleColor = THEMES[newTheme]["circleColor"];
   }
 }
 
@@ -173,10 +155,17 @@ function getElem(id) {
   return document.getElementById(id);
 }
 
+let arrowOpenButton = getElem("arrowOpenButton");
+
 let expectedAgeInput = getElem("expectedAgeInput");
 let bdayInput = getElem("bdayInput");
-let themeSelectInput = getElem("themeSelectInput");
 let timePeriodInput = getElem("timePeriodInput");
+
+let themeSelectInput = getElem("themeSelectInput");
+let marginInput = getElem("marginInput");
+
+let customThemeWarning = getElem("customThemeWarning");
+let customThemeSettings = getElem("customThemeSettings");
 
 let customThemeFieldset = getElem("customThemeFieldset");
 let offbarBackgroundColorInput = getElem("offbarBackgroundColorInput");
@@ -185,9 +174,6 @@ let filledGradient1Input = getElem("filledGradient1Input");
 let filledGradient2Input = getElem("filledGradient2Input");
 let unfilledGradient1Input = getElem("unfilledGradient1Input");
 let unfilledGradient2Input = getElem("unfilledGradient2Input");
-
-let customThemeWarning = getElem("customThemeWarning");
-let customThemeSettings = getElem("customThemeSettings");
 
 // Initialize date picker to current date
 bdayInput.valueAsDate = new Date(birthday);
@@ -200,6 +186,9 @@ getElem(timePeriodSelected).checked = true;
 
 // Initialize theme selector
 themeSelectInput.value = themeName;
+
+// Initialize margin
+marginInput.value = margin;
 
 // Initialize custom theme fieldset
 function updateCustomThemeFieldset() {
@@ -233,7 +222,7 @@ bdayInput.addEventListener("change", function () {
 });
 
 // Expected age listener
-expectedAgeInput.addEventListener("keyup", function () {
+expectedAgeInput.addEventListener("change", function () {
   let input = this.value;
 
   // Stop app from crashing when expected age is too high
@@ -271,6 +260,13 @@ themeSelectInput.addEventListener("change", function () {
 
   updateCustomThemeFieldset();
 
+  setup();
+});
+
+// Margin listener
+marginInput.addEventListener("change", function () {
+  margin = this.value;
+  localStorage.setItem("margin", margin);
   setup();
 });
 
