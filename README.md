@@ -1,9 +1,24 @@
-# wait-but-why-life-calendar
+<!-- Shields -->
+<div align="center">
+  <img src="https://img.shields.io/github/last-commit/anthfgreco/wait-but-why-life-calendar" 
+       alt="GitHub Last Commit"/>
+  <img src="https://img.shields.io/github/repo-size/anthfgreco/wait-but-why-life-calendar" 
+       alt"GitHub Repo Size"/>
+</div>
 
-![GitHub Last Commit](https://img.shields.io/github/last-commit/anthfgreco/wait-but-why-life-calendar)
-![GitHub Repo Size](https://img.shields.io/github/repo-size/anthfgreco/wait-but-why-life-calendar)
+<!-- Project Logo -->
+<br />
+<div align="center">
+  <a href="https://github.com/anthfgreco/wait-but-why-life-calendar">
+    <img src="images/icon128.png" alt="Logo" width="80" height="80">
+  </a>
 
-Chrome new tab extension visualizing how much life we have left.
+  <h3 align="center">Wait But Why Life Calendar</h3>
+
+  <p align="center">
+    Chrome new tab extension visualizing how much life we have left.
+  </p>
+</div>
 
 Built with JavaScript, p5.js, UIkit, and Day.js.
 
