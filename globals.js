@@ -53,6 +53,7 @@ const TIME_PERIODS = {
   years: 1,
   months: 12,
   weeks: 52,
+  days: 365.2425,
 };
 
 // Keys to be stored in local storage
