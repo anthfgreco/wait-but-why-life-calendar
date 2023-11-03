@@ -41,7 +41,7 @@ Chrome Extension: https://bit.ly/3bm9WQ0
 ## Roadmap
 
 - [x] Birthday + expected age input
-- [x] Year/month/week input
+- [x] Year/month/week/day input
 - [x] Theme input
 - [x] Margin/size of circles input
 - [x] Custom themes
